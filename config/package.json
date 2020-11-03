@@ -1,0 +1,13 @@
+//UninstalledTypes表示支持的卸载类型;为空时 默认为 form、application
+//PackageFormat表示支持上传安装包的后缀名;为空时 默认为 zip、aip、pgk
+{
+    "UninstalledTypes":[
+        "form",
+        "application"
+    ],
+    "PackageFormat":[
+        "zip",
+        "aip",
+        "pkg"
+    ]
+}

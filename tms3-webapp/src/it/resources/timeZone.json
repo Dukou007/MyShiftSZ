@@ -1,0 +1,104 @@
+[
+	{
+		"country":"Canada",
+		"timeZoneId":"Canada/Newfoundland",
+		"timeZoneName": "(UTC-03:30) Newfoundland Time",
+		"isDaylightSaving":"1"
+	},
+	{
+		"country":"Canada",
+		"timeZoneId":"Canada/Atlantic",
+		"timeZoneName": "(UTC-04:00) Atlantic Time",
+		"isDaylightSaving":"1"
+	},
+	{
+		"country":"Canada",
+		"timeZoneId":"Canada/Eastern",
+		"timeZoneName": "(UTC-05:00) Eastern Time(Canada)",
+		"isDaylightSaving":"1"
+	},
+	{
+		"country":"Canada",
+		"timeZoneId":"Canada/Central",
+		"timeZoneName": "(UTC-06:00) Central Time(Canada)",
+		"isDaylightSaving":"1"
+	},
+	{
+		"country":"Canada",
+		"timeZoneId":"Canada/Saskatchewan",
+		"timeZoneName": "(UTC-06:00) Saskatchewan Time",
+		"isDaylightSaving":"0"
+	},
+	{
+		"country":"Canada",
+		"timeZoneId":"Canada/Mountain",
+		"timeZoneName": "(UTC-07:00) Mountain Time(Canada)",
+		"isDaylightSaving":"1"
+	},
+	{
+		"country":"Canada",
+		"timeZoneId":"Canada/Pacific",
+		"timeZoneName": "(UTC-08:00) Pacific Time(Canada)",
+		"isDaylightSaving":"1"
+	},
+	{
+		"country":"United States",
+		"timeZoneId":"America/Puerto_Rico",
+		"timeZoneName": "(UTC-04:00) Puerto_Rico Time",
+		"isDaylightSaving":"0"
+	},
+	{
+		"country":"United States",
+		"timeZoneId":"US/Eastern",
+		"timeZoneName": "(UTC-05:00) Eastern Time(United States)",
+		"isDaylightSaving":"1"
+	},
+	{
+		"country":"United States",
+		"timeZoneId":"US/Central",
+		"timeZoneName": "(UTC-06:00) Central Time(United States)",
+		"isDaylightSaving":"1"
+	},
+	{
+		"country":"United States",
+		"timeZoneId":"US/Mountain",
+		"timeZoneName": "(UTC-07:00) Mountain Time(United States)",
+		"isDaylightSaving":"1"
+	},
+	{
+		"country":"United States",
+		"timeZoneId":"US/Arizona",
+		"timeZoneName": "(UTC-07:00) Arizona Time",
+		"isDaylightSaving":"0"
+	},
+	{
+		"country":"United States",
+		"timeZoneId":"US/Pacific",
+		"timeZoneName": "(UTC-08:00) Pacific Time(United States)",
+		"isDaylightSaving":"1"
+	},
+	{
+		"country":"United States",
+		"timeZoneId":"US/Alaska",
+		"timeZoneName": "(UTC-09:00) Alaska Time",
+		"isDaylightSaving":"1"
+	},
+	{
+		"country":"United States",
+		"timeZoneId":"US/Hawaii",
+		"timeZoneName": "(UTC-10:00) Hawaii-Aleutian Time",
+		"isDaylightSaving":"0"
+	},
+	{
+		"country":"United States",
+		"timeZoneId":"Pacific/Samoa",
+		"timeZoneName": "(UTC-11:00) Somoa Time",
+		"isDaylightSaving":"0"
+	},
+	{
+		"country":"United States",
+		"timeZoneId":"Pacific/Guam",
+		"timeZoneName": "(UTC+10:00) Chamorro Time",
+		"isDaylightSaving":"0"
+	}
+]
