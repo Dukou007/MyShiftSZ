@@ -1,0 +1,15 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.pax</groupId>
+	<artifactId>myshift</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<modules>
+		<module>cas</module>
+		<module>tms3-lib</module>
+		<module>tms3-webapp</module>
+		<module>tms3-pxretailer</module>
+		<!-- module>Migration-PxMaster-to-PPM</module -->
+	</modules>
+</project>

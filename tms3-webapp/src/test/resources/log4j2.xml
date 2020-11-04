@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  AsyncLoggers Shutdown with Tomcat
+
+  Log4j automatically inserts itself into the runtime application context in a Servlet 3 environment (i.e.
+  Tomcat 8.x) and will clean up the logging context once the container is instructed to shut down. However,
+  Tomcat ignores all JAR files named log4j*.jar, which prevents this feature from working. You may need
+  to change the catalina.properties and remove log4j*.jar from the jarsToSkip property. You may need to
+  do something similar on other containers if they skip scanning Log4j JAR files.
+
+  Failure to do so will stop Tomcat to gracefully shut down and causes logger context threads to hang.
+-->
+
+<!-- Specify the refresh internal in seconds. -->
+<Configuration monitorInterval="60">
+  <Properties>
+    <Property name="LOG_PATH">logs</Property>
+  </Properties>
+  <Appenders>
+    <Console name="Console" target="SYSTEM_OUT">
+      <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%t] %logger - %m%n" />
+    </Console>
+    <RollingFile name="File" fileName="${sys:LOG_PATH}/messager.log" filePattern="${sys:LOG_PATH}/%d{yyyy-MM}/%d{yyyy-MM-dd}-%i.log.gz"
+      append="true" createOnDemand="true" immediateFlush="false">
+      <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%t] %logger - %m%n" />
+      <Policies>
+        <OnStartupTriggeringPolicy />
+        <SizeBasedTriggeringPolicy size="250 MB" />
+        <TimeBasedTriggeringPolicy />
+      </Policies>
+      <DefaultRolloverStrategy max="256">
+        <Delete basePath="${LOG_PATH}" maxDepth="2">
+          <IfFileName glob="*/*.log.gz" />
+          <IfLastModified age="30d">
+            <IfAny>
+              <IfAccumulatedFileSize exceeds="20 GB" />
+              <IfAccumulatedFileCount exceeds="10" />
+            </IfAny>
+          </IfLastModified>
+        </Delete>
+      </DefaultRolloverStrategy>
+    </RollingFile>
+  </Appenders>
+  <Loggers>
+    <AsyncRoot level="debug">
+      <AppenderRef ref="File" />
+      <AppenderRef ref="Console" />
+    </AsyncRoot>
+  </Loggers>
+</Configuration>

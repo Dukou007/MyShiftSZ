@@ -1,0 +1,47 @@
+[
+	{
+		"itemName":"MSR Read Rate",
+		"thdValue": "10",
+		"reportCycle": "per day"
+	},
+	{
+		"itemName":"PIN Encryption Failure",
+		"thdValue": "15",
+		"reportCycle": "per day"
+	},
+	{
+		"itemName":"Contact IC Read Rate",
+		"thdValue": "10",
+		"reportCycle": "per day"
+	},
+	{
+		"itemName":"Download History",
+		"thdValue": "5",
+		"reportCycle": "per day"
+	},
+	{
+		"itemName":"Signature",
+		"thdValue": "10",
+		"reportCycle": "per day"
+	},
+	{
+		"itemName":"Contactless IC Read Rate",
+		"thdValue": "10",
+		"reportCycle": "per day"
+	},
+	{
+		"itemName":"Activation History",
+		"thdValue": "5",
+		"reportCycle": "per day"
+	},
+	{
+		"itemName":"Transaction History",
+		"thdValue": "5",
+		"reportCycle": "per day"
+	},
+	{
+		"itemName":"Power-cycle History",
+		"thdValue": "100",
+		"reportCycle": "per month"
+	}
+]

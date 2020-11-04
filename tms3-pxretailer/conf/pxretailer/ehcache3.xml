@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<eh:config xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xmlns:eh='http://www.ehcache.org/v3'
+	xmlns:jsr107='http://www.ehcache.org/v3/jsr107'
+	xsi:schemaLocation="
+        http://www.ehcache.org/v3 http://www.ehcache.org/schema/ehcache-core-3.3.xsd
+        http://www.ehcache.org/v3/jsr107 http://www.ehcache.org/schema/ehcache-107-ext-3.3.xsd">
+
+	<eh:cache alias="fileDataCache">
+		<eh:key-type>java.lang.String</eh:key-type>
+		<eh:expiry>
+			<eh:tti unit="seconds">1800</eh:tti>
+		</eh:expiry>
+		<eh:resources>
+			<eh:heap unit="MB">400</eh:heap>
+			<eh:offheap unit="MB">800</eh:offheap>
+		</eh:resources>
+	</eh:cache>
+
+	<eh:cache alias="fileIdCache">
+		<eh:key-type>java.lang.Long</eh:key-type>
+		<eh:value-type>com.pax.tms.download.model.PkgFile</eh:value-type>
+		<eh:expiry>
+			<eh:tti unit="seconds">1800</eh:tti>
+		</eh:expiry>
+		<eh:heap unit="entries">100000</eh:heap>
+	</eh:cache>
+
+	<eh:cache alias="pkgCache">
+		<eh:key-type>java.lang.Long</eh:key-type>
+		<eh:value-type>com.pax.tms.download.model.PkgFile</eh:value-type>
+		<eh:expiry>
+			<eh:ttl unit="seconds">1800</eh:ttl>
+		</eh:expiry>
+		<eh:heap unit="entries">2000</eh:heap>
+	</eh:cache>
+
+	<eh:cache alias="fileNameCache">
+		<eh:key-type>java.lang.String</eh:key-type>
+		<eh:value-type>com.pax.tms.download.model.PkgFile</eh:value-type>
+		<eh:expiry>
+			<eh:ttl unit="seconds">1800</eh:ttl>
+		</eh:expiry>
+		<eh:heap unit="entries">10000</eh:heap>
+	</eh:cache>
+
+</eh:config>

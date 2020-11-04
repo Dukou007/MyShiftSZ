@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:task="http://www.springframework.org/schema/task" xmlns:cache="http://www.springframework.org/schema/cache"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.3.xsd
+       http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.3.xsd
+       http://www.springframework.org/schema/cache
+       http://www.springframework.org/schema/cache/spring-cache.xsd">
+
+	<!-- Scans the classpath for annotated components that will be auto-registered 
+		as Spring beans. By default, the Spring-provided @Component, @Repository, 
+		@Service, and @Controller stereotypes will be detected. Note: This tag implies 
+		the effects of the 'annotation-config' tag, activating @Required, @Autowired, 
+		@PostConstruct, @PreDestroy, @Resource, @PersistenceContext and @PersistenceUnit 
+		annotations in the component classes, which is usually desired for autodetected 
+		components (without external configuration). Turn off the 'annotation-config' 
+		attribute to deactivate this default behavior, for example in order to use 
+		custom BeanPostProcessor definitions for handling those annotations. -->
+	<context:component-scan base-package="com.pax">
+		<context:exclude-filter type="annotation"
+			expression="org.springframework.stereotype.Controller" />
+	</context:component-scan>
+
+	<!-- Activates various annotations to be detected in bean classes: Spring's 
+		@Required and @Autowired, as well as JSR 250's @PostConstruct, @PreDestroy 
+		and @Resource (if available), JAX-WS's @WebServiceRef (if available), EJB3's 
+		@EJB (if available), and JPA's @PersistenceContext and @PersistenceUnit (if 
+		available). Alternatively, you may choose to activate the individual BeanPostProcessors 
+		for those annotations. Note: This tag does not activate processing of Spring's 
+		@Transactional or EJB3's @TransactionAttribute annotation. Consider the use 
+		of the <tx:annotation- driven> tag for that purpose. -->
+	<context:annotation-config />
+
+	<!-- 开启AOP监听 只对当前配置文件有效 Enables the use of the @AspectJ style of Spring 
+		AOP. See org.springframework.context.annotation.EnableAspectJAutoProxy Javadoc 
+		for information on code- based alternatives to this XML element. -->
+	<aop:aspectj-autoproxy expose-proxy="true" />
+
+	<!-- 开启注解事务 只对当前配置文件有效 It scans all beans in the application context and 
+		creates AOP interceptor for those which are annotated. This is done via the 
+		SpringTransactionAnnotationParser, which is used by TransactionInterceptor 
+		- the aformentioned interceptor. Then whenever these beans are accessed, 
+		this advice is triggered and a transaction is started before the target method 
+		is executed, and committed after the execution. -->
+	<tx:annotation-driven transaction-manager="txManager" />
+
+	<!-- org.springframework.transaction.PlatformTransactionManager implementation 
+		for a single Hibernate SessionFactory. Binds a Hibernate Session from the 
+		specified factory to the thread, potentially allowing for one thread-bound 
+		Session per factory. SessionFactory.getCurrentSession() is required for Hibernate 
+		access code that needs to support this transaction handling mechanism, with 
+		the SessionFactory being configured with SpringSessionContext. -->
+	<bean id="txManager"
+		class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+	<!-- the transactional advice -->
+	<tx:advice id="txAdvice" transaction-manager="txManager">
+		<tx:attributes>
+			<tx:method name="newTransaction" propagation="REQUIRES_NEW" />
+			<tx:method name="save*" propagation="REQUIRED" />
+			<tx:method name="add*" propagation="REQUIRED" />
+			<tx:method name="create*" propagation="REQUIRED" />
+			<tx:method name="insert*" propagation="REQUIRED" />
+			<tx:method name="update*" propagation="REQUIRED" />
+			<tx:method name="del*" propagation="REQUIRED" />
+			<tx:method name="remove*" propagation="REQUIRED" />
+			<tx:method name="put*" propagation="REQUIRED" />
+			<tx:method name="use*" propagation="REQUIRED" />
+			<tx:method name="get*" propagation="REQUIRED" read-only="true" />
+			<tx:method name="count*" propagation="REQUIRED" read-only="true" />
+			<tx:method name="find*" propagation="REQUIRED" read-only="true" />
+			<tx:method name="list*" propagation="REQUIRED" read-only="true" />
+			<tx:method name="*" />
+		</tx:attributes>
+	</tx:advice>
+
+	<!-- A section (compartmentalization) of AOP-specific configuration (including 
+		aspects, pointcuts, etc). Content Model : (pointcut*, advisor*, aspect*) -->
+	<aop:config expose-proxy="true">
+		<!-- 只对业务逻辑层实施事务 -->
+		<aop:pointcut id="txPointcut" expression="execution(* com.pax..service..*.*(..))" />
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="txPointcut" />
+	</aop:config>
+
+	<!-- Pooled Data Source For the meaning of most of these properties, please 
+		see c3p0's top-level documentation! -->
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+		destroy-method="close" p:driverClass="${database.driverClass}"
+		p:jdbcUrl="${database.url}" p:user="${database.user}" p:password="${database.password}"
+		p:initialPoolSize="${database.pool.minSize}" p:minPoolSize="${database.pool.minSize}"
+		p:maxPoolSize="${database.pool.maxSize}"
+		p:maxIdleTimeExcessConnections="${database.pool.maxIdleTime}"
+		p:checkoutTimeout="${database.pool.maxWait}" p:acquireIncrement="${database.pool.acquireIncrement}"
+		p:acquireRetryAttempts="${database.pool.acquireRetryAttempts}"
+		p:acquireRetryDelay="${database.pool.acquireRetryDelay}"
+		p:idleConnectionTestPeriod="${database.pool.idleConnectionTestPeriod}"
+		p:preferredTestQuery="${database.pool.connectionHealthQuery}"
+		p:breakAfterAcquireFailure="${database.pool.breakAfterAcquireFailure}"
+		p:testConnectionOnCheckout="${database.pool.testConnectionOnCheckout}"
+		p:testConnectionOnCheckin="${database.pool.testConnectionOnCheckin}"
+		p:maxStatements="${database.pool.maxStatements}"
+		p:maxStatementsPerConnection="${database.pool.maxStatementsPerConnection}"
+		p:autoCommitOnClose="${database.pool.autoCommitOnClose}"
+		p:numHelperThreads="${database.pool.numHelperThreads}"
+		p:maxAdministrativeTaskTime="${database.pool.maxAdministrativeTaskTime}" />
+
+
+	<!-- FactoryBean that creates a Hibernate SessionFactory. This is the usual 
+		way to set up a shared Hibernate SessionFactory in a Spring application context; 
+		the SessionFactory can then be passed to Hibernate-based data access objects 
+		via dependency injection. Compatible with Hibernate 5.0/5.1 as well as 5.2, 
+		as of Spring 4.3. -->
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="packagesToScan">
+			<!-- Specify packages to search for autodetection of your entity classes 
+				in the classpath. This is analogous to Spring's component-scan feature -->
+			<list>
+				<value>com.pax</value>
+			</list>
+		</property>
+		<property name="hibernateProperties" ref="hibernateProperties" />
+	</bean>
+
+	<util:properties id="hibernateProperties">
+		<prop key="hibernate.dialect">${hibernate.dialect}</prop>
+		<prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
+		<prop key="hibernate.format_sql">${hibernate.format_sql}</prop>
+		<prop key="hibernate.query.substitutions">${hibernate.query.substitutions}</prop>
+		<prop key="hibernate.default_batch_fetch_size">${hibernate.default_batch_fetch_size}</prop>
+		<prop key="hibernate.max_fetch_depth">${hibernate.max_fetch_depth}</prop>
+		<prop key="hibernate.generate_statistics">${hibernate.generate_statistics}</prop>
+		<prop key="hibernate.bytecode.use_reflection_optimizer">${hibernate.bytecode.use_reflection_optimizer}</prop>
+		<prop key="hibernate.cache.use_second_level_cache">${hibernate.cache.use_second_level_cache}</prop>
+		<prop key="hibernate.cache.use_query_cache">${hibernate.cache.use_query_cache}</prop>
+		<prop key="hibernate.cache.region.factory_class">${hibernate.cache.region.factory_class}</prop>
+		<prop key="hibernate.javax.cache.provider">${hibernate.javax.cache.provider}</prop>
+		<prop key="hibernate.javax.cache.uri">${hibernate.javax.cache.uri}</prop>
+		<prop key="hibernate.cache.use_structured_entries">${hibernate.cache.use_structured_entries}</prop>
+		<prop key="hibernate.id.new_generator_mappings">${hibernate.id.new_generator_mappings}</prop>
+		<prop key="hibernate.id.optimizer.pooled.prefer_lo">${hibernate.id.optimizer.pooled.prefer_lo}</prop>
+		<prop key="hibernate.ejb.use_class_enhancer">${hibernate.ejb.use_class_enhancer}</prop>
+		<prop key="hibernate.jdbc.time_zone">UTC</prop>
+	</util:properties>
+
+	<!-- Spring-specific org.springframework.context.MessageSource implementation 
+		that accesses resource bundles using specified basenames, participating in 
+		the Spring org.springframework.context.ApplicationContext's resource loading. -->
+	<bean id="supportMessageSource"
+		class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<property name="basenames">
+			<list>
+				<value>classpath:ppm/il8n/messages</value>
+			</list>
+		</property>
+		<property name="defaultEncoding" value="UTF-8" />
+		<property name="cacheSeconds" value="60" />
+	</bean>
+
+	<!-- 初始化资源 -->
+	<bean
+		class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+		<property name="staticMethod"
+			value="com.pax.common.web.message.MessageConverter.getInstance" />
+	</bean>
+
+	<!-- call static method -->
+	<bean
+		class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+		<property name="targetClass" value="com.pax.tms.user.security.AclManager" />
+		<property name="targetMethod" value="setUserPrivilegeService" />
+		<property name="arguments">
+			<list>
+				<ref bean="userPrivilgeServiceImpl" />
+			</list>
+		</property>
+	</bean>
+	<!-- call static method -->
+	<bean
+		class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+		<property name="targetClass" value="com.pax.tms.group.GroupXmlFile" />
+		<property name="targetMethod" value="setModelService" />
+		<property name="arguments">
+			<list>
+				<ref bean="modelServiceImpl" />
+			</list>
+		</property>
+	</bean>
+
+	<bean
+		class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+		<property name="targetClass" value="com.pax.tms.group.GroupXmlFile" />
+		<property name="targetMethod" value="setCountryService" />
+		<property name="arguments">
+			<list>
+				<ref bean="countryServiceImpl" />
+			</list>
+		</property>
+	</bean>
+
+	<bean
+		class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+		<property name="targetClass" value="com.pax.tms.group.GroupXmlFile" />
+		<property name="targetMethod" value="setProvinceService" />
+		<property name="arguments">
+			<list>
+				<ref bean="provinceServiceImpl" />
+			</list>
+		</property>
+	</bean>
+
+	<bean
+		class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+		<property name="targetClass" value="com.pax.tms.group.GroupXmlFile" />
+		<property name="targetMethod" value="setAddressService" />
+		<property name="arguments">
+			<list>
+				<ref bean="addressServiceImpl" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="signer" class="com.pax.tms.app.broadpos.Signer"
+		init-method="init">
+		<property name="keystore" value="broadpos/PAXDataScript.keystore"></property>
+		<property name="keystorePassword" value="dowa2012Y1a7n2g3"></property>
+		<property name="entryAlias" value="PAXDataScript"></property>
+		<property name="entryPassword" value="dowa2012Y1a7n2g3"></property>
+		<!-- <property name="algorithm" value=""></property> -->
+		<property name="signVersion" value="00862E92558717DF79"></property>
+		<!-- <property name="rootCert" value=""></property> <property name="scriptCert" 
+			value=""></property> -->
+	</bean>
+
+	<!-- i18n -->
+	<bean id="messageSource"
+		class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<property name="basenames">
+			<list>
+				<value>classpath:ppm/il8n/messages</value>
+				<value>classpath:ppm/il8n/phoenix_package</value>
+			</list>
+		</property>
+		<property name="defaultEncoding" value="UTF-8" />
+		<property name="cacheSeconds" value="60" />
+	</bean>
+
+	<!-- call static method -->
+	<bean
+		class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+		<property name="targetClass" value="java.lang.System" />
+		<property name="targetMethod" value="setProperty" />
+		<property name="arguments">
+			<list>
+				<value>com.amazonaws.sdk.disableCertChecking</value>
+				<value>${sms.amazon.disableCertChecking}</value>
+			</list>
+		</property>
+	</bean>
+	<bean
+		class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+		<property name="targetClass" value="com.pax.tms.monitor.amazon.sns.PaxSmsUtil" />
+		<property name="targetMethod" value="setCredentials" />
+		<property name="arguments">
+			<list>
+				<value>${sms.amazon.profilesConfigFile}</value>
+				<value>${sms.amazon.profileName}</value>
+				<value>${sms.amazon.service.enable}</value>
+			</list>
+		</property>
+	</bean>
+
+	<cache:annotation-driven />
+	<bean id="cacheManager" class="org.springframework.cache.support.SimpleCacheManager">
+		<property name="caches">
+			<set>
+<!-- 				<bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean">
+					<property name="name" value="dashboardCache" />
+				</bean> -->
+				<bean class="com.pax.tms.web.RedisCache">
+					<property name="redisTemplate" ref="noTransactionRedisTemplate" />
+					<property name="name" value="dashboardCache" />
+					<property name="timeout" value="${tms.dashboard.cache.timeout}" />
+					<property name="dbIndex" value="3" />
+				</bean>
+			</set>
+		</property>
+	</bean>
+</beans>

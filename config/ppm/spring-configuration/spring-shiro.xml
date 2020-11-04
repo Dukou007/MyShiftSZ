@@ -1,0 +1,171 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.3.xsd">
+
+
+	<!-- Security Headers Filter. -->
+	<bean id="securityHeadersFilter" class="com.pax.common.security.SecurityHeadersFilter">
+		<property name="cacheControl" value="${http.security.cacheControl}" />
+		<property name="pragma" value="${http.security.pragma}" />
+		<property name="expires" value="${http.security.expires}" />
+		<property name="xContextTypeOptions" value="${http.security.xContextTypeOptions}" />
+		<property name="xFrameOptions" value="${http.security.xFrameOptions}" />
+		<property name="xxssProtection" value="${http.security.xxssProtection}" />
+		<property name="contentSecurityPolicy" value="${http.security.contentSecurityPolicy}" />
+		<property name="referrerPolicy" value="${http.security.referrerPolicy}" />
+		<property name="strictTransportSecurity" value="${http.security.strictTransportSecurity}" />
+		<property name="publicKeyPinsReportOnly" value="${http.security.publicKeyPinsReportOnly}" />
+		<property name="tmsServerPrefix" value="${tms.user.inactiveAccount.url}" />
+		<property name="casLoginUrl" value="${tms.login.casLoginUrl}" />
+	</bean>
+
+	<!-- FactoryBean to be used in Spring-based web applications for defining 
+		the master Shiro Filter. -->
+	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+		<property name="securityManager" ref="securityManager" />
+		<property name="loginUrl" value="${tms.login.casLoginUrl}" />
+		<property name="filters">
+			<util:map>
+				<!-- org.apache.shiro.web.filter.mgt.DefaultFilter -->
+				<entry key="casCallbackFilter" value-ref="casCallbackFilter" />
+				<entry key="logoutFilter" value-ref="logoutFilter" />
+				<entry key="casSecurityFilter" value-ref="casSecurityFilter" />
+			</util:map>
+		</property>
+		<property name="filterChainDefinitions">
+			<value>
+				/static/**=anon
+				/public/**=anon
+				/webservice/**=anon
+				/*/api/**=anon
+				/webjars/**=anon
+				/swagger-resources/**=anon
+				/swagger-ui.html/**=anon
+				/v2/api-docs=anon
+				/user/forgetMyPassword=anon
+				/user/resetMyPassword=anon
+				/user/changePassword=anon
+				/user/service/changePassword=anon
+				/user/service/forgetMyPassword=anon
+				/user/service/resetMyPassword=anon
+				/cas=casCallbackFilter
+				/logout=logoutFilter
+				/**=casSecurityFilter
+			</value>
+		</property>
+	</bean>
+
+	<!-- This filter protects an url, based on the securityLogic. The configuration 
+		can be provided via setter methods: setConfig(Config) (security configuration), 
+		setClients(String) (list of clients for authentication), setAuthorizers(String) 
+		(list of authorizers), setMatchers(String) and setMultiProfile(Boolean) (whether 
+		multiple profiles should be kept). -->
+	<bean id="casSecurityFilter" class="io.buji.pac4j.filter.SecurityFilter">
+		<property name="config" ref="pac4jConfig" />
+		<property name="clients" value="casclient" />
+		<!-- csrfToken to use the CsrfTokenGeneratorAuthorizer with the DefaultCsrfTokenGenerator 
+			(it generates a CSRF token and saves it as the pac4jCsrfToken request attribute 
+			and in the pac4jCsrfToken cookie), csrfCheck to check that this previous 
+			token has been sent as the pac4jCsrfToken header or parameter in a POST request 
+			and csrf to use both previous authorizers -->
+		<!-- <property name="authorizers" value="isFullyAuthenticated" /> -->
+		<property name="authorizers" value="isAuthenticated" />
+		<property name="matchers" value="fullyAuthenticatedPath" />
+	</bean>
+
+	<!-- This filter finishes the login process for an indirect client, based 
+		on the callbackLogic. The configuration can be provided via setter methods: 
+		setConfig(Config) (security configuration), setDefaultUrl(String) (default 
+		url after login if none was requested) and setMultiProfile(Boolean) (whether 
+		multiple profiles should be kept). -->
+	<bean id="casCallbackFilter" class="io.buji.pac4j.filter.CallbackFilter">
+		<property name="config" ref="pac4jConfig" />
+		<property name="defaultUrl" value="${tms.server.prefix}" />
+		<property name="callbackLogic">
+			<bean class="com.pax.tms.schedule.CasCallbackLogic" />
+		</property>
+	</bean>
+
+	<!-- The default configuration with clients, authorizers and matchers. -->
+	<bean id="singleSignOutHandler"
+		class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+		<property name="targetClass"
+			value="org.jasig.cas.client.session.SingleSignOutFilter" />
+		<property name="targetMethod" value="getSingleSignOutHandler" />
+	</bean>
+	<bean id="singleSignOutSessionMappingStorage"
+		class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+		<property name="targetObject" ref="singleSignOutHandler" />
+		<property name="targetMethod" value="getSessionMappingStorage" />
+	</bean>
+
+	<bean id="casClient" class="org.pac4j.cas.client.CasClient">
+		<property name="name" value="casclient" />
+		<property name="callbackUrl" value="${tms.login.callbackUrl}" />
+		<property name="casPrefixUrl" value="${tms.casCallback.casPrefixUrl}" />
+		<property name="casLoginUrl" value="${tms.login.casLoginUrl}" />
+		<property name="logoutHandler">
+			<bean class="org.pac4j.cas.logout.CasSingleSignOutHandler">
+				<property name="sessionMappingStorage" ref="singleSignOutSessionMappingStorage" />
+			</bean>
+		</property>
+		<property name="renew" value="false" />
+	</bean>
+
+	<bean id="pac4jConfig" class="org.pac4j.core.config.Config">
+		<property name="clients">
+			<bean class="org.pac4j.core.client.Clients">
+				<property name="clients">
+					<array>
+						<ref bean="casClient" />
+					</array>
+				</property>
+				<property name="defaultClient" ref="casClient" />
+				<property name="callbackUrl" value="${tms.login.callbackUrl}" />
+			</bean>
+		</property>
+		<property name="matchers">
+			<map>
+				<entry key="fullyAuthenticatedPath">
+					<bean class="org.pac4j.core.matching.ExcludedPathMatcher">
+						<property name="excludePath"
+							value="^(/public/.*)|(/css/.*)|(/js/.*)|(.*\.jpg)|(.*\.png)|(.*\.gif)|(.*\.css)|(.*\.js)$" />
+					</bean>
+				</entry>
+			</map>
+		</property>
+	</bean>
+
+	<bean id="logoutFilter" class="org.apache.shiro.web.filter.authc.LogoutFilter">
+		<property name="redirectUrl" value="${tms.logout.redirectUrl}" />
+	</bean>
+
+	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+		<property name="realm" ref="pac4jRealm" />
+		<property name="subjectFactory">
+			<bean class="com.pax.tms.user.security.TmsUserPac4jSubjectFactory" />
+		</property>
+	</bean>
+
+	<!-- <bean id="pac4jRealm" class="io.buji.pac4j.realm.Pac4jRealm"></bean> -->
+	<bean id="pac4jRealm" class="com.pax.tms.user.security.TmsUserPac4jRealm"></bean>
+
+	<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor" />
+
+	<!-- Enable Shiro Annotations for Spring-configured beans. Only run after -->
+	<!-- the lifecycleBeanProcessor has run: -->
+	<bean
+		class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"
+		depends-on="lifecycleBeanPostProcessor" />
+	<bean
+		class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+		<property name="securityManager" ref="securityManager" />
+	</bean>
+</beans>

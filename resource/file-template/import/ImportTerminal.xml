@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<terminals>
+	<terminal tid="10000000" terminalType="S80" country="United States" stateorprovice="Alabama" city="Birmingham" zipcode="14201" timeZone="US/Eastern"  address="" daylight="Enable" syncToServerTime="Enable" description="" ></terminal>
+	<terminal tid="10000001" terminalType="S80" country="United States" stateorprovice="Alabama" city="Birmingham" zipcode="14201" timeZone="US/Eastern"  address="" daylight="Enable" syncToServerTime="Enable" description="" ></terminal>
+	<terminal tid="10000002" terminalType="S80" country="United States" stateorprovice="Alabama" city="Birmingham" zipcode="14201" timeZone="US/Eastern"  address="" daylight="Enable" syncToServerTime="Enable" description="" ></terminal>
+</terminals>
+

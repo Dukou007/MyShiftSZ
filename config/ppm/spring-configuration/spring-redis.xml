@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.3.xsd
+      http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.3.xsd">
+
+
+	<bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+		<property name="maxTotal" value="600" />
+		<property name="maxIdle" value="300" />
+		<property name="maxWaitMillis" value="2000" />
+		<property name="testOnBorrow" value="true" />
+	</bean>
+
+	<bean id="redisSentinelConfiguration"
+		class="org.springframework.data.redis.connection.RedisSentinelConfiguration">
+		<constructor-arg name="propertySource" ref="redisSentinelPropertySource" />
+	</bean>
+
+	<bean name="redisSentinelPropertySource"
+		class="org.springframework.core.io.support.ResourcePropertySource">
+		<constructor-arg name="location" value="classpath:tms.properties" />
+	</bean>
+
+	<bean id="jedisConnectionFactory"
+		class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
+		<constructor-arg name="sentinelConfig" ref="redisSentinelConfiguration" />
+		<constructor-arg name="poolConfig" ref="jedisPoolConfig" />
+		<property name="timeout" value="5000" />
+		<property name="usePool" value="true" />
+		<property name="password" value="${redis.pass}" />
+	</bean>
+
+	<bean id="stringRedisSerializer"
+		class="org.springframework.data.redis.serializer.StringRedisSerializer" />
+
+	<!-- redis template definition -->
+	<bean id="noTransactionRedisTemplate" class="org.springframework.data.redis.core.RedisTemplate">
+		<property name="connectionFactory" ref="jedisConnectionFactory" />
+		<property name="keySerializer" ref="stringRedisSerializer" />
+		<!-- 开启事务，可以通过transcational注解控制 -->
+		<property name="enableTransactionSupport" value="false" />
+	</bean>
+
+	<!-- redis template definition -->
+	<bean id="transactionRedisTemplate" class="org.springframework.data.redis.core.RedisTemplate">
+		<property name="connectionFactory" ref="jedisConnectionFactory" />
+		<property name="keySerializer" ref="stringRedisSerializer" />
+		<!-- 开启事务，可以通过transcational注解控制 -->
+		<property name="enableTransactionSupport" value="true" />
+	</bean>
+
+	<!-- <bean id="queue" class="org.springframework.data.redis.support.collections.DefaultRedisList"> 
+		<constructor-arg ref="redisTemplate" /> <constructor-arg value="queue-key" 
+		/> </bean> -->
+
+
+	<!-- Receiving/Subscribing for messages -->
+	<!-- <bean id="tmsUserStatusChangedMessageListener" class="org.springframework.data.redis.listener.adapter.MessageListenerAdapter"> 
+		<constructor-arg> <bean class="com.pax.tms.message.UserStatusChangedMessageHandler" 
+		/> </constructor-arg> <property name="serializer"> <bean class="org.springframework.data.redis.serializer.JdkSerializationRedisSerializer" 
+		/> </property> </bean> <bean id="redisContainer" class="org.springframework.data.redis.listener.RedisMessageListenerContainer"> 
+		<property name="connectionFactory" ref="jedisConnectionFactory" /> <property 
+		name="messageListeners"> <map> <entry key-ref="tmsUserStatusChangedMessageListener"> 
+		<bean class="org.springframework.data.redis.listener.ChannelTopic"> <constructor-arg 
+		value="tms.user.status.changed" /> </bean> </entry> </map> </property> </bean> -->
+
+	<alias name="noTransactionRedisTemplate" alias="redisTemplate" />
+	<bean id="redisClient" class="com.pax.common.redis.RedisClient" />
+
+	<bean class="com.pax.common.redis.TerminalChangedMessageHandler"
+		init-method="start" destroy-method="stop" />
+</beans>

@@ -1,0 +1,40 @@
+{
+	"@class": "org.jasig.cas.services.RegexRegisteredService",
+	"serviceId": "^https://.*Designer.*",
+	"name": "PxDesigner",
+	"id": 10000002,
+	"description": "PxDesinger service definition.",
+	"proxyPolicy": {
+		"@class": "org.jasig.cas.services.RefuseRegisteredServiceProxyPolicy"
+	},
+	"evaluationOrder": 0,
+	"usernameAttributeProvider": {
+		"@class": "org.jasig.cas.services.DefaultRegisteredServiceUsernameProvider"
+	},
+	"logoutType": "BACK_CHANNEL",
+	"attributeReleasePolicy": {
+		"@class": "com.pax.tms.cas.login.PxDesignerAttributeReleasePolicy",
+		"principalAttributesRepository": {
+			"@class": "org.jasig.cas.authentication.principal.DefaultPrincipalAttributesRepository"
+		},
+		"authorizedToReleaseCredentialPassword": false,
+		"authorizedToReleaseProxyGrantingTicket": false,
+		"allowedAttributes": {
+			"@class": "java.util.TreeMap",
+			"userId": "userId",
+			"username": "username",
+			"email": "email",
+			"mobilePhone": "mobilePhone",
+			"addDate": "addDate",
+			"IS_ENABLED_Y": "isEnable",
+			"DEFAULT_GROUP": "defaultGroup",
+			"PXDESIGNER_ROLES": "rolelist",
+			"USER_GROUPS": "groups"
+		}
+	},
+	"accessStrategy": {
+		"@class": "org.jasig.cas.services.DefaultRegisteredServiceAccessStrategy",
+		"enabled": true,
+		"ssoEnabled": true
+	}
+}

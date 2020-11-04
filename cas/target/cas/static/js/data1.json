@@ -1,0 +1,66 @@
+{
+    "uuid": null,
+    "responseCode": "0000000",
+    "responseMessage": "success",
+    "totalCount": 100,
+    "currentPage": 1,
+	"pageSize": 2,
+    "items": [
+        {
+            "id": 1,
+            "userName": "admin",
+            "userFullName": null,
+            "email": null,
+            "organizationName": "PAX"
+        },
+        {
+            "id": 3,
+            "userName": "deployer",
+            "userFullName": null,
+            "email": null,
+            "organizationName": "PAX"
+        },
+        {
+            "id": 2,
+            "userName": "developer",
+            "userFullName": null,
+            "email": null,
+            "organizationName": "PAX"
+        },
+        {
+            "id": 8,
+            "userName": "elliott",
+            "userFullName": "elliott zhang",
+            "email": "ElliottZhang@paxsz.com",
+            "organizationName": "PAX"
+        },
+        {
+            "id": 7,
+            "userName": "installer",
+            "userFullName": null,
+            "email": null,
+            "organizationName": "PAX"
+        },
+        {
+            "id": 6,
+            "userName": "operator",
+            "userFullName": null,
+            "email": null,
+            "organizationName": "PAX"
+        },
+        {
+            "id": 4,
+            "userName": "signer",
+            "userFullName": null,
+            "email": null,
+            "organizationName": "PAX"
+        },
+        {
+            "id": 5,
+            "userName": "supervisor",
+            "userFullName": null,
+            "email": null,
+            "organizationName": "PAX"
+        }
+    ]
+}

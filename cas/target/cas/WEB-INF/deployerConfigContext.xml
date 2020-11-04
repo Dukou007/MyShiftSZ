@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:c="http://www.springframework.org/schema/c"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:sec="http://www.springframework.org/schema/security"
+	xmlns:ldaptive="http://www.ldaptive.org/schema/spring-ext"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
+       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+       http://www.ldaptive.org/schema/spring-ext http://www.ldaptive.org/schema/spring-ext.xsd">
+
+	<!-- Factory to create the principal type -->
+	<alias name="defaultPrincipalFactory" alias="principalFactory" />
+
+	<!-- SSO Session Cookie - encryption, signing and verification The cookie 
+		value is encrypted and signed via secret keys that need to be generated upon 
+		deployment. If keys are left undefined, on startup CAS will notice that no 
+		keys are defined and it will appropriately generate keys for you automatically. 
+		You should then grab each generated key for encryption and signing, and put 
+		them inside your cas.properties file for each now-enabled setting. # The 
+		encryption secret key. By default, must be a octet string of size 256. # 
+		tgc.encryption.key= # The signing secret key. By default, must be a octet 
+		string of size 512. # tgc.signing.key= refer: ticketGrantingTicketCookieGenerator 
+		-> defaultCookieValueManager -> defaultCookieCipherExecutor -->
+	<alias name="tgcCipherExecutor" alias="defaultCookieCipherExecutor" />
+
+	<!-- ##################### CentralAuthenticationService ##################### -->
+	<!-- Authentication policy that uses a service context to produce stateful 
+		security policies to apply when authenticating credentials. -->
+	<alias name="acceptAnyAuthenticationPolicyFactory" alias="authenticationPolicyFactory" />
+
+	<!-- Service Management - JSON Service Registry Path to the JSON service 
+		definitions directory is controlled via: service.registry.config.location=classpath:services -->
+	<alias name="jsonServiceRegistryDao" alias="serviceRegistryDao" />
+
+	<!-- Ticket Registry - Default (In-Memory) Ticket Registry # Indicates how 
+		frequently the Ticket Registry cleaner should run. Configured in seconds. 
+		# ticket.registry.cleaner.startdelay=20 # ticket.registry.cleaner.repeatinterval=120 -->
+	<!-- <alias name="defaultTicketRegistry" alias="ticketRegistry" /> -->
+
+	<!-- Use Redis to store ticket -->
+	<bean id="ticketRegistry" class="com.pax.tms.cas.login.RedisTicketRegistry">
+		<constructor-arg index="0" ref="redisTemplate" />
+		<constructor-arg index="1" value="${tgt.timeToKillInSeconds}" />
+		<constructor-arg index="2" value="${st.timeToKillInSeconds}" />
+	</bean>
+	<bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+		<property name="maxTotal" value="600" />
+		<property name="maxIdle" value="50" />
+		<property name="maxWaitMillis" value="2000" />
+		<property name="testOnBorrow" value="true" />
+	</bean>
+
+	<bean id="redisSentinelConfiguration"
+		class="org.springframework.data.redis.connection.RedisSentinelConfiguration">
+		<constructor-arg name="propertySource" ref="redisSentinelPropertySource" />
+	</bean>
+
+	<bean name="redisSentinelPropertySource"
+		class="org.springframework.core.io.support.ResourcePropertySource">
+		<constructor-arg name="location" value="classpath:tms.properties" />
+	</bean>
+
+	<bean id="jedisConnectionFactory"
+		class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
+		<constructor-arg name="sentinelConfig" ref="redisSentinelConfiguration" />
+		<constructor-arg name="poolConfig" ref="jedisPoolConfig" />
+		<property name="timeout" value="5000" />
+		<property name="usePool" value="true" />
+		<property name="database" value="12" />
+		<property name="password" value="${redis.pass}" />
+	</bean>
+
+	<bean id="stringRedisSerializer"
+		class="org.springframework.data.redis.serializer.StringRedisSerializer" />
+	<bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate">
+		<property name="connectionFactory" ref="jedisConnectionFactory" />
+		<property name="keySerializer" ref="stringRedisSerializer" />
+		<property name="enableTransactionSupport" value="false" />
+	</bean>
+
+	<!-- Granting Ticket Expiration Policy - Long Term Authentication (Remember 
+		Me) -->
+	<alias name="rememberMeDelegatingExpirationPolicy" alias="grantingTicketExpirationPolicy" />
+	<!-- The length of the long term authentication session is determined by: 
+		# Inactivity Timeout Policy # tgt.timeout.maxTimeToLiveInSeconds=1209600 
+		# tgc.remember.me.maxAge=1209600 -->
+	<alias name="timeoutExpirationPolicy" alias="rememberMeExpirationPolicy" />
+	<!-- # Default Expiration Policy # tgt.maxTimeToLiveInSeconds=28800 # tgt.timeToKillInSeconds=7200 -->
+	<alias name="ticketGrantingTicketExpirationPolicy" alias="sessionExpirationPolicy" />
+
+	<!-- Service Ticket Expiration Policy - MultiTimeUseOrTimeoutExpirationPolicy 
+		# st.timeToKillInSeconds=10 # st.numberOfUses=1 -->
+	<alias name="multiTimeUseOrTimeoutExpirationPolicy" alias="serviceTicketExpirationPolicy" />
+
+	<!-- ##################### authentication machinery ##################### -->
+	<!-- AuthenticationSystemSupport -->
+	<alias name="defaultAuthenticationTransactionManager" alias="authenticationTransactionManager" />
+	<alias name="defaultPrincipalElectionStrategy" alias="principalElectionStrategy" />
+
+	<!-- Authentication Manager - AuthenticationMetaDataPopulator An extension 
+		point to the Authentication process that allows CAS to provide additional 
+		attributes related to the overall Authentication (such as authentication 
+		type) that are specific to the Authentication request versus the Principal 
+		itself. -->
+	<util:list id="authenticationMetadataPopulators">
+		<!-- Sets an authentication attribute containing the collection of authentication 
+			handlers (by name) that successfully authenticated credential -->
+		<ref bean="successfulHandlerMetaDataPopulator" />
+		<!-- Supports the long term authentication feature -->
+		<ref bean="rememberMeAuthenticationMetaDataPopulator" />
+	</util:list>
+
+	<!-- Authentication Manager - Authentication security policy refer: org.jasig.cas.authentication.PolicyBasedAuthenticationManager -->
+	<alias name="anyAuthenticationPolicy" alias="authenticationPolicy" />
+
+	<!-- Authentication Manager - authenticationHandlersResolvers Map of authentication 
+		handlers to resolvers to be used when handler does not resolve a principal 
+		refer: org.jasig.cas.authentication.PolicyBasedAuthenticationManager -->
+	<util:map id="authenticationHandlersResolvers">
+		<entry key-ref="tmsAuthenticationHandler" value="#{null}" />
+	</util:map>
+
+	<!-- TMS User Authentication Handler -->
+	<bean class="com.pax.common.util.SpringContextUtil" />
+	<alias name="plainTextPasswordEncoder" alias="passwordEncoder" />
+	<alias name="dataSource" alias="tmsUserDatabaseDataSource" />
+	<bean name="tmsAuthenticationHandler" class="com.pax.tms.cas.login.TmsAuthenticationHandler">
+		<property name="resultAttributeMapping">
+			<map>
+				<entry key="USER_ID" value="userId"></entry>
+				<entry key="USERNAME" value="username"></entry>
+				<entry key="EMAIL" value="email"></entry>
+				<entry key="PHONE" value="mobilePhone"></entry>
+				<entry key="CREATE_DATE" value="addDate"></entry>
+				<entry key="DEFAULT_GROUP" value="DEFAULT_GROUP"></entry>
+				<entry key="USER_GROUPS" value="USER_GROUPS"></entry>
+				<entry key="USER_ROLES" value="rolelist"></entry>
+				<entry key="TMS_ROLES" value="TMS_ROLES"></entry>
+				<entry key="PXDESIGNER_ROLES" value="PXDESIGNER_ROLES"></entry>
+			</map>
+		</property>
+	</bean>
+
+	<!-- LDAP Authentication -->
+	<bean id="ldapAuthenticationHandler" class="org.jasig.cas.authentication.LdapAuthenticationHandler"
+		c:authenticator-ref="adAuthenticator"
+		p:passwordPolicyConfiguration-ref="tmsLdapPasswordPolicyConfiguration">
+		<property name="principalAttributeMap">
+			<map>
+				<entry key="sAMAccountName" value="username" />
+				<entry key="cn" value="fullname" />
+				<entry key="mobile" value="phone" />
+				<entry key="mail" value="email" />
+				<entry key="co" value="countryName" />
+				<entry key="st" value="provinceName" />
+				<entry key="l" value="cityName" />
+				<entry key="postalCode" value="zipCode" />
+				<entry key="streetAddress" value="address" />
+				<entry key="description" value="description" />
+				<!-- <entry key="displayname" value="displayName" /> -->
+			</map>
+		</property>
+	</bean>
+
+	<!-- LDAP Direct Bind The following configuration snippet provides a template 
+		for LDAP authentication where no search is required to compute the DN needed 
+		for a bind operation. There are two requirements for this use case: 1. All 
+		users are under a single branch in the directory, e.g. ou=Users,dc=example,dc=org. 
+		2. The username provided on the CAS login form is part of the DN, e.g. uid=%s,ou=Users,dc=exmaple,dc=org. -->
+	<!-- <ldaptive:direct-authenticator id="directAuthenticator" ldapUrl="${tms.ldap.url}" 
+		format="${tms.ldap.searchFilter}" useSSL="${tms.ldap.use.ssl:false}" useStartTLS="${tms.ldap.useStartTLS}" 
+		trustCertificates="${tms.ldap.trust.crt}" authenticationCertificate="${tms.ldap.private.crt}" 
+		authenticationKey="${tms.ldap.private.key}" connectTimeout="${ldap.connectTimeout}" 
+		validateOnCheckOut="${ldap.pool.validateOnCheckout}" failFastInitialize="${ldap.pool.failFastInitialize}" 
+		blockWaitTime="${ldap.pool.blockWaitTime}" idleTime="${ldap.pool.idleTime}" 
+		maxPoolSize="${ldap.pool.maxSize}" minPoolSize="${ldap.pool.minSize}" validatePeriodically="${ldap.pool.validatePeriodically}" 
+		validatePeriod="${ldap.pool.validatePeriod}" prunePeriod="${ldap.pool.prunePeriod}"> 
+		</ldaptive:direct-authenticator> -->
+
+	<!-- Active Directory Authentication - Users authenticate with sAMAccountName 
+		The following configuration authenticates users with a custom filter, which 
+		requires manager/administrator credentials in most cases. If the filter is 
+		left blank, the authentication is executed by UPN without performing a search. 
+		It is therefore the most performant and secure solution for the typical Active 
+		Directory deployment. -->
+	<ldaptive:ad-authenticator id="adAuthenticator"
+		ldapUrl="${tms.ldap.url}" bindDn="${tms.ldap.managerDn}"
+		bindCredential="${tms.ldap.managerPassword}" baseDn="${tms.ldap.baseDn}"
+		userFilter="${tms.ldap.searchFilter}" subtreeSearch="${tms.ldap.subtreeSearch:true}"
+		allowMultipleDns="${tms.ldap.allowMultipleDns:false}" useSSL="${tms.ldap.use.ssl:false}"
+		useStartTLS="${tms.ldap.useStartTLS}" connectTimeout="${ldap.connectTimeout}"
+		validateOnCheckOut="${ldap.pool.validateOnCheckout}"
+		failFastInitialize="${ldap.pool.failFastInitialize}" blockWaitTime="${ldap.pool.blockWaitTime}"
+		idleTime="${ldap.pool.idleTime}" maxPoolSize="${ldap.pool.maxSize}"
+		minPoolSize="${ldap.pool.minSize}" validatePeriodically="${ldap.pool.validatePeriodically}"
+		validatePeriod="${ldap.pool.validatePeriod}" prunePeriod="${ldap.pool.prunePeriod}"
+		trustStore="${tms.ldap.trustStore}" trustStorePassword="${tms.ldap.trustStorePassword}"
+		keyStore="${tms.ldap.keyStore}" keyStorePassword="${tms.ldap.keyStorePassword}" />
+
+	<!-- LDAP Account Expiration Notification -->
+	<alias name="tmsLdapPasswordPolicyConfiguration" alias="passwordPolicyConfiguration" />
+
+	<!-- ##################### Audits, Monitor and Statistics ##################### -->
+	<!-- Login Throttling - HandlerInterceptor CAS provides a facility for limiting 
+		failed login attempts to support password guessing and related abuse scenarios. 
+		A couple strategies are provided for tracking failed attempts: Source IP 
+		- Limit successive failed logins against any username from the same IP address. 
+		Source IP and username - Limit successive failed logins against a particular 
+		user from the same IP address. A failure rate of more than 1 per 3 seconds 
+		is indicative of an automated authentication attempt, which is a reasonable 
+		basis for throttling policy. Regardless of policy care should be taken to 
+		weigh security against access; overly restrictive policies may prevent legitimate 
+		authentication attempts. Configuration Login throttling configuration consists 
+		of: #cas.throttle.failure.threshold=100 #cas.throttle.failure.range.seconds=60 
+		#cas.throttle.username.parameter=username #cas.throttle.inmemory.cleaner.repeatinterval:5000 
+		<alias name="neverThrottle" alias="authenticationThrottle" /> -->
+	<alias name="inMemoryIpAddressUsernameThrottle" alias="authenticationThrottle" />
+
+	<!-- Monitoring & Statistics -->
+	<util:list id="monitorsList">
+		<!-- Memory Usage Report #cas.monitor.free.mem.threshold=10 -->
+		<ref bean="memoryMonitor" />
+		<!-- SSO Sessions Report #cas.monitor.st.warn.threshold=5000 #cas.monitor.tgt.warn.threshold=10000 -->
+		<ref bean="sessionMonitor" />
+	</util:list>
+
+	<!-- Audits - CAS uses the Inspektr framework for auditing purposes and 
+		statistics. File-based Audits By default, audit messages appear in log files 
+		via the Slf4jLoggingAuditTrailManager and are routed to a cas_audit.log file 
+		defined in the log4j2.xml configuration as well as the usual cas.log file. 
+		Database Audits If you intend to use a database for auditing functionality, 
+		adjust the audit manager to match the configuration below: <import resource="classpath:inspektr-jdbc-audit-config.xml" 
+		/> -->
+	<bean id="auditTrailManager"
+		class="org.jasig.inspektr.audit.support.Slf4jLoggingAuditTrailManager"
+		p:entrySeparator="${cas.audit.singleline.separator:|}"
+		p:useSingleLine="${cas.audit.singleline:false}" />
+
+	<!-- Pooled Data Source -->
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+		destroy-method="close" p:driverClass="${database.driverClass}"
+		p:jdbcUrl="${database.url}" p:user="${database.user}" p:password="${database.password}"
+		p:initialPoolSize="${c3p0.minPoolSize}" p:minPoolSize="${c3p0.minPoolSize}"
+		p:maxPoolSize="${c3p0.maxPoolSize}" p:maxIdleTimeExcessConnections="${c3p0.maxIdleTime}"
+		p:checkoutTimeout="${c3p0.checkoutTimeout}" p:acquireIncrement="${c3p0.acquireIncrement}"
+		p:acquireRetryAttempts="${c3p0.acquireRetryAttempts}"
+		p:acquireRetryDelay="${c3p0.acquireRetryDelay}"
+		p:idleConnectionTestPeriod="${c3p0.idleConnectionTestPeriod}"
+		p:preferredTestQuery="${database.validationQuery}"
+		p:testConnectionOnCheckout="${c3p0.testConnectionOnCheckout}"
+		p:testConnectionOnCheckin="${c3p0.testConnectionOnCheckin}"
+		p:maxStatementsPerConnection="${c3p0.maxStatementsPerConnection}"
+		p:statementCacheNumDeferredCloseThreads="${c3p0.statementCacheNumDeferredCloseThreads}"
+		p:numHelperThreads="${c3p0.numHelperThreads}" />
+
+	<!-- CAS framework required -->
+	<bean id="attributeRepository"
+		class="org.jasig.services.persondir.support.NamedStubPersonAttributeDao">
+		<property name="backingMap">
+			<util:map>
+			</util:map>
+		</property>
+	</bean>
+
+	<!-- Themes - ServiceThemeResolver With the introduction of Service Management 
+		application, deployers are now able to switch the themes based on different 
+		services. For example, you may want to have different login screens (different 
+		styles) for staff applications and student applications. Or, you want to 
+		show two layouts for day time and night time. ServiceThemeResolver can be 
+		configured to decorate CAS views based on the theme property of a given registered 
+		service in the Service Registry. The theme that is activated via this method 
+		will still preserve the default JSP views for CAS but will simply apply decorations 
+		such as CSS and Javascript to the views. The physical structure of views 
+		cannot be modified via this method. -->
+	<alias name="serviceThemeResolver" alias="themeResolver" />
+
+	<bean class="com.pax.tms.cas.login.AllowAllHostnameHttpClient" />
+</beans>

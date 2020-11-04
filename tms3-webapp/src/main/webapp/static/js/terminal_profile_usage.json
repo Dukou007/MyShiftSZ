@@ -1,0 +1,15 @@
+{
+    "result": {
+        "Transction History": 1,
+        "MSR Read Rate": 2,
+        "Contact-IC Read Rate": 1,
+        "Contactless-IC Read Rate": 0,
+        "PIN Encryption Failures": 1,
+        "Signature Rate": 0,
+        "Download History": 2,
+        "Activation History": 1,
+        "Power-cycle History": 0
+    },
+    "message": "",
+    "statusCode": 200
+}

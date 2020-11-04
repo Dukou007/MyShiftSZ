@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+Implementation-Title: cas-server-webapp
+Implementation-Version: 4.2.3
+Implementation-Date: Sun Jun 26 18:00:10 MST 2016
+Created-By: org.jasig.cas
+Implementation-Vendor: org.jasig.cas
+

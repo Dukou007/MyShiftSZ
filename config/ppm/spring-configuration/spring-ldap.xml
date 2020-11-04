@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx" xmlns:c="http://www.springframework.org/schema/c"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:task="http://www.springframework.org/schema/task"
+	xmlns:ldaptive="http://www.ldaptive.org/schema/spring-ext"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.3.xsd
+      http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.3.xsd
+      http://www.ldaptive.org/schema/spring-ext http://www.ldaptive.org/schema/spring-ext.xsd">
+
+	<bean id="ldapSearchExecutor" class="com.pax.tms.user.security.LdapSearchExecutor">
+		<property name="searchExecutor" ref="search-executor" />
+		<property name="pooledConnectionFactory" ref="pooled-connection-factory" />
+		<property name="userFilter" value="${tms.ldap.searchFilter}" />
+		<property name="attributeMap">
+			<map>
+				<entry key="sAMAccountName" value="username" />
+				<entry key="cn" value="fullname" />
+				<entry key="mobile" value="phone" />
+				<entry key="mail" value="email" />
+				<entry key="co" value="countryName" />
+				<entry key="st" value="provinceName" />
+				<entry key="l" value="cityName" />
+				<entry key="postalCode" value="zipCode" />
+				<entry key="streetAddress" value="address" />
+				<entry key="description" value="description" />
+			</map>
+		</property>
+	</bean>
+
+	<ldaptive:search-executor baseDn="${tms.ldap.baseDn}" searchFilter="${tms.ldap.searchFilter}"
+		returnAttributes="${ldap.search.returnAttributes}" timeLimit="${ldap.search.timeLimit}" sizeLimit="${ldap.search.sizeLimit}"
+		sortBehavior="${ldap.search.sortBehavior}" />
+
+	<ldaptive:pooled-connection-factory ldapUrl="${tms.ldap.url}" bindDn="${tms.ldap.managerDn}"
+		bindCredential="${tms.ldap.managerPassword}" useSSL="${tms.ldap.use.ssl:false}" useStartTLS="${tms.ldap.useStartTLS}"
+		minPoolSize="${ldap.pool.minSize}" maxPoolSize="${ldap.pool.maxSize}" connectTimeout="${ldap.connectTimeout}"
+		validateOnCheckOut="${ldap.pool.validateOnCheckout}" failFastInitialize="${ldap.pool.failFastInitialize}"
+		blockWaitTime="${ldap.pool.blockWaitTime}" idleTime="${ldap.pool.idleTime}" validatePeriodically="${ldap.pool.validatePeriodically}"
+		validatePeriod="${ldap.pool.validatePeriod}" prunePeriod="${ldap.pool.prunePeriod}" trustStore="${tms.ldap.trustStore}"
+		trustStorePassword="${tms.ldap.trustStorePassword}" keyStore="${tms.ldap.keyStore}" keyStorePassword="${tms.ldap.keyStorePassword}" />
+</beans>

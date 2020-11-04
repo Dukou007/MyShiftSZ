@@ -1,0 +1,276 @@
+/*		
+ * ============================================================================		
+ * = COPYRIGHT		
+ *               PAX TECHNOLOGY, Inc. PROPRIETARY INFORMATION		
+ *   This software is supplied under the terms of a license agreement or		
+ *   nondisclosure agreement with PAX  Technology, Inc. and may not be copied		
+ *   or disclosed except in accordance with the terms in that agreement.		
+ *      Copyright (C) YYYY-? PAX Technology, Inc. All rights reserved.		
+ * Description: // Detail description about the function of this module,		
+ *             // interfaces with the other modules, and dependencies. 		
+ * Revision History:		
+ * Date	                 Author	                Action
+ * 2017-1-10 	         TMS_HZ           	Create/Add/Modify/Delete
+ * ============================================================================		
+ */
+/*group-tree*/
+   .groupT {
+        position: relative;
+        margin-left: 15px;
+    }
+    
+    .groupT>li {
+        position: relative;
+    }
+    
+    .groupT>li:before {
+        content: '';
+        width: 1px;
+        background-color: #9da4b6;
+        position: absolute;
+        left: -8px;
+        top: -10px;
+        bottom: 0px;
+    }
+    
+    .groupT>li:last-child:before {
+        content: '';
+        width: 1px;
+        background-color: #9da4b6;
+        position: absolute;
+        left: -8px;
+        top: -10px;
+        height: 26px;
+    }
+    .tree-item{
+        min-width: 200px;
+    }
+    .groupT-panel {
+        
+        width: 100%;
+        height: 36px;
+        line-height: 34px;
+        border: 1px solid #d3e0ea;
+        border-left: 2px solid #505da9;
+        margin-top: 10px;
+        background-color: #f8fafb;
+        border-radius: 2px;
+        position: relative;
+    }
+    
+    .groupT-panel:hover {
+        box-shadow: 1px 2px 10px #bfbdbd;
+    }
+    
+    .groupT-panel:before {
+        content: '';
+        width: 7px;
+        height: 1px;
+        background-color: #9da4b6;
+        position: absolute;
+        left: -10px;
+        top: 50%;
+        margin-top: -3px;
+    }
+
+    .g-tree {
+        // width: 100%;
+        overflow: auto;
+        border-radius: 3px;
+        background-color: #fff;
+        position: relative;
+        padding:4px 0;
+        margin-bottom: 10px;
+    }
+    
+    .groupbox{
+        height: 34px;
+        position: relative;
+    }
+    .groupbox .g-tree-circle{
+        left: 5px
+    }
+    .groupbox .g-tree-toggling{
+        right: 5px
+    }
+    .groupbox .g-tree-parentName{
+        padding-left: 40px;
+        padding-right: 55px;
+    }
+    .g-tree-circle {
+        display: inline-block;
+        width: 34px;
+        height: 34px;
+        line-height: 34px;
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+    }
+    .mygroupbox{
+        .group-tree-body{
+            max-height:100%
+        }
+    }
+    
+    .g-tree-circle .A {
+        width: 16px;
+        height: 16px;
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        border-radius: 100%;
+        border: 1px solid #505da9;
+        margin-bottom: 10px;
+    }
+    
+    .g-tree-circle .active:before {
+        content: '';
+        width: 8px;
+        height: 8px;
+        position: absolute;
+        border-radius: 50%;
+        top: 3px;
+        left: 3px;
+        background-color: #505da9;
+    }
+    
+    .g-tree-parentName {
+        display: inline-block;
+        width: 100%;
+        height: 34px;
+        line-height: 34px;
+        padding-left: 30px;
+        padding-right: 50px;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
+    
+    .g-tree-toggling {
+        display: inline-block;
+        width: 34px;
+        height: 34px;
+        color: #a0a6b8;
+        line-height: 35px;
+        text-align: center;
+        position: absolute;
+        top: 0;
+        right: 0;
+        cursor: pointer;
+
+    }
+    .g-tree-firstchild {
+        
+        padding: 0 16px 10px 16px;
+    }
+
+    .g-tree-bottom {
+        float: left;
+        display: inline-block;
+        word-break: break-all;
+        text-align: left;
+        span{
+            display: inline-block;
+            max-width:100px;
+                overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis; 
+        }
+
+    }
+    
+    .g-tree-item>.groupT-panel:before {
+        display: none;
+    }
+    
+    .g-searchInput {
+        width: 196px !important;
+        border-radius: 4px;
+        border:1px solid #d3e0ea;
+    }
+    
+    .g-searchGo {
+        display: block;
+        float: left;
+        width: 44px;
+        padding: 6px 12px;
+        font-size: 14px;
+        font-weight: bolder;
+        line-height: 1.42857143;
+        color: #4a647e;
+        text-align: center;
+        background-color: #fff;
+        border: 1px solid #d3e0ea;
+        border-left: none;
+        border-top-right-radius: 4px;
+        border-bottom-right-radius: 4px;
+
+    }
+ .group-tree-body{
+ 	max-height: 410px;
+    margin-top:15px; 
+    overflow: auto;
+
+ }
+.modal-footer-btngroup{
+	float: right;
+	display: inline-block;
+}
+.modal-title{
+	font-size: 16px;
+}
+.g-search{
+	text-align: right;
+}
+.g-search .input-group{
+	display: inline-block;
+	width: 240px;
+}
+.g-tree-operator {
+        position: absolute;
+        top: -1px;
+        right: 0px;
+        cursor: pointer;
+        .g-action-menu{
+            background: #fff;
+            border: 1px solid #d3e0ea;
+            >li{
+                border-left: 1px solid #d3e0ea;
+
+            }
+            a{
+                color: #4a647e;
+                font-weight: 500;
+            }
+            >li:first-child{
+                border:none;
+            }
+        }
+        .g-action-btn{
+            border: 1px solid transparent;
+            &.active{
+                border: 1px solid #d3e0ea;
+                background: #fff;
+            }
+        }
+      
+    }
+    .mygroupbox{
+        position: relative;
+        .group-tree-body{
+            margin-top: 0px;
+        }
+    }
+    .mygroupbox .g-tree-parentName {
+        padding-left: 20px;
+        padding-right: 75px;
+
+    }
+    
+    .mygroupbox .g-tree-toggling {
+        right: 40px;
+    }
+.g-tree-firstchild .g-tree-item:first-child >.groupT-panel{
+    margin-top:3px;
+}

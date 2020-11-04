@@ -1,0 +1,16 @@
+
+Wjavascript:S1854"6Remove this useless assignment to variable "clonePer".(Ö¸¥şÿÿÿÿ
+Zjavascript:S1481"9Remove the declaration of the unused 'clonePer' variable.(Ö¸¥şÿÿÿÿ
+7javascript:S1116r"Unnecessary semicolon.(ôŸìúÿÿÿÿ
+Jjavascript:S1117•"-'tsn' is already declared in the upper scope.(ïæ˜
+…javascript:S2703·"cAdd the "let", "const" or "var" keyword to this declaration of "targetGroupId" to make it explicit.(Í£½¿üÿÿÿÿ
+„javascript:S2703Ò"bAdd the "let", "const" or "var" keyword to this declaration of "selectionIds" to make it explicit.(®úóøÿÿÿÿ
+gjavascript:S905ã"FExpected an assignment or function call and instead saw an expression.(Û´¡ôüÿÿÿÿ
+Kjavascript:S1117¾".'data' is already declared in the upper scope.(©Èÿ»
+6javascript:S2814Í"'str' is already defined.(¾ã¤
+qjavascript:S1481Î"ORemove the declaration of the unused 'ownByOtherParallerGroupTsnList' variable.(çÔÎ÷ÿÿÿÿÿ
+qjavascript:S1481Ò"ORemove the declaration of the unused 'ownByOtherParallerGroupTsnList' variable.(û¥Åˆúÿÿÿÿ
+Vjavascript:S2814Ò"4'ownByOtherParallerGroupTsnList' is already defined.(û¥Åˆúÿÿÿÿ
+njavascript:S1854Ò"LRemove this useless assignment to variable "ownByOtherParallerGroupTsnList".(û¥Åˆúÿÿÿÿ
+bjavascript:S905Ê"FExpected an assignment or function call and instead saw an expression.(¬ï½Ş
+€javascript:S4165µ"cReview this useless assignment: "idArr" already holds the assigned value along all execution paths.(Ö—ú

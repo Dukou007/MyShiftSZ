@@ -1,0 +1,33 @@
+
+x
+java:S1488ó"\Immediately return this expression instead of assigning it to the temporary variable "list".(§äëÿÿÿÿÿ
+X
+java:S1126"AReplace this if-then-else statement by a single return statement.(¯ñÛÆ
+t
+java:S1192Ì"XDefine a constant instead of duplicating this literal "msg.group.groupRequired" 9 times.(ÁÉ¦ıÿÿÿÿ
+w
+java:S1488È"`Immediately return this expression instead of assigning it to the temporary variable "response".(Çï×‘
+B
+java:S1075†"&Remove this hard-coded path-delimiter.(®¬Îæüÿÿÿÿ
+Y
+java:S1126Ø"BReplace this if-then-else statement by a single method invocation.(¡•œ
+U
+java:S4973¸"9Use the "equals" method if value comparison was intended.(§‡œ»üÿÿÿÿ
+x
+java:S1192"\Define a constant instead of duplicating this literal "msg.group.targetExistSource" 3 times.(©áıÓûÿÿÿÿ
+o
+java:S2293Ú"YReplace the type specification in this constructor call with the diamond operator ("<>").(›Š–X
+p
+java:S2293Ù"YReplace the type specification in this constructor call with the diamond operator ("<>").(¤Ü•Ú
+u
+java:S2293é"YReplace the type specification in this constructor call with the diamond operator ("<>").(ŒŸ‡ªüÿÿÿÿ
+=
+java:S1075ü"&Remove this hard-coded path-delimiter.(Äš¦å
+U
+java:S4973Ç"9Use the "equals" method if value comparison was intended.(§‡œ»üÿÿÿÿ
+z
+java:S1488Å"cImmediately return this expression instead of assigning it to the temporary variable "newNamePath".(Ú„º
+}
+java:S1488†"aImmediately return this expression instead of assigning it to the temporary variable "newIdPath".(®¬Îæüÿÿÿÿ
+u
+java:S2293ê"YReplace the type specification in this constructor call with the diamond operator ("<>").(›öÓøÿÿÿÿ

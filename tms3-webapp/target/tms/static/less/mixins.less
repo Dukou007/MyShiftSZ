@@ -1,0 +1,92 @@
+/*		
+ * ============================================================================		
+ * = COPYRIGHT		
+ *               PAX TECHNOLOGY, Inc. PROPRIETARY INFORMATION		
+ *   This software is supplied under the terms of a license agreement or		
+ *   nondisclosure agreement with PAX  Technology, Inc. and may not be copied		
+ *   or disclosed except in accordance with the terms in that agreement.		
+ *      Copyright (C) YYYY-? PAX Technology, Inc. All rights reserved.		
+ * Description: // Detail description about the function of this module,		
+ *             // interfaces with the other modules, and dependencies. 		
+ * Revision History:		
+ * Date	                 Author	                Action
+ * 2017-1-10 	         TMS_HZ           	Create/Add/Modify/Delete
+ * ============================================================================		
+ */
+.transition(@t :all 0.3s ease){
+  transition:@t ;
+  -moz-transition:@t ;
+  -o-transition:@t ;
+  -ms-transition:@t ;
+  -webkit-transition:@t ;
+}
+.transform(@t ) {
+    transform: @t ;
+    -moz-transform: @t ;
+    -o-transform: @t ;
+    -ms-transform: @t ;
+    -webkit-transform: @t ;
+}
+.ellipsis {
+    //省略
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+/**
+* keyframes
+*/
+.keyframes (@prefix,@name,@content) when (@prefix=def) {
+  @keyframes @name {
+    @content();
+  }
+}
+.keyframes (@prefix,@name,@content) when (@prefix=moz) {
+  @-moz-keyframes @name {
+    @content();
+  }
+}
+.keyframes (@prefix,@name,@content) when (@prefix=o) {
+  @-o-keyframes @name {
+    @content();
+  }
+}
+.keyframes (@prefix,@name,@content) when (@prefix=webkit) {
+  @-webkit-keyframes  @name{
+    @content();
+  }
+}
+.keyframes (@prefix,@name,@content) when (@prefix=all) {
+  .keyframes(moz,@name,@content);
+  .keyframes(o,@name,@content);
+  .keyframes(webkit,@name,@content);
+  .keyframes(def,@name,@content);
+}
+/**
+* animation
+*/
+.animation(@name,@content){
+  animation: @name @content;
+  -moz-animation: @name @content; /* Firefox */
+  -webkit-animation: @name @content;  /* Safari 和 Chrome */
+  -o-animation: @name @content;
+}
+/**
+* placeholder
+*/
+.placeholder(@a){
+      &::-webkit-input-placeholder { /* WebKit browsers */
+            @a();
+      }
+      &:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+            @a();
+      }
+      &::-moz-placeholder { /* Mozilla Firefox 19+ */
+            @a();
+      }
+      &:-ms-input-placeholder { /* Internet Explorer 10+ */
+            @a();
+      }
+}
+
+@common-color : #59c402;

@@ -1,0 +1,7 @@
+Run Message server:
+  Arguments
+    Program arguments: run com.pax.tms.pxretailer.PxRetailerServer -instances 1 -conf "conf\pxretailer.json"
+    VM arguments: -Xms1024m -Xmx2048m -XX:MaxDirectMemorySize=1000M -Dtms.home=tmp
+  Classpath
+    1) add /tms3-pxretailer/conf to classpath
+	2) add /tms3/config to classpath

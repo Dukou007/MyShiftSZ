@@ -1,0 +1,12 @@
+{
+    "result": {
+        "Tampers": 1,
+        "Offline": 2,
+        "Pending Downloads": 1,
+        "Pending Activations": 0,
+        "Privacy Shield": 1,
+        "Stylus": 0
+    },
+    "message": "successful",
+    "statusCode": 200
+}

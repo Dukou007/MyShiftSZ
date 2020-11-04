@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.3.xsd
+      http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.3.xsd">
+
+	<!-- Enables the detection of @Async and @Scheduled annotations on any Spring-managed
+		object. If present, a proxy will be generated for executing the annotated
+		methods asynchronously. -->
+	<task:annotation-driven executor="asynchronousMethodsExecutor" scheduler="taskScheduler" />
+
+
+	<!-- Defines a ThreadPoolTaskExecutor instance with configurable pool size,
+		queue-capacity, keep-alive, and rejection-policy values. -->
+	<task:executor id="asynchronousMethodsExecutor" pool-size="10-25" keep-alive="120" queue-capacity="100"
+		rejection-policy="CALLER_RUNS" />
+
+	<!-- Defines a ThreadPoolTaskScheduler instance with configurable pool size. -->
+	<task:scheduler id="taskScheduler" pool-size="10" />
+
+	<!-- <task:scheduled-tasks scheduler="myScheduler"> <task:scheduled ref="beanA"
+		method="methodA" fixed-delay="5000" initial-delay="1000"/> <task:scheduled
+		ref="beanB" method="methodB" fixed-rate="5000"/> <task:scheduled ref="beanC"
+		method="methodC" cron="*/5 * * * * MON-FRI"/> </task:scheduled-tasks> -->
+
+	<!-- Using the Quartz Scheduler -->
+	<bean id="quartzScheduler" class="com.pax.common.schedule.DatasourceSchedulerFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="transactionManager" ref="txManager" />
+
+		<!-- This name is persisted as SCHED_NAME in db. for local testing could
+			change to unique name to avoid collision with dev server -->
+		<property name="schedulerName" value="tmsQuartzScheduler" />
+
+		<!-- Will update database cron triggers to what is in this jobs file on
+			each deploy. Replaces all previous trigger and job data that was in the database.
+			YMMV -->
+		<property name="overwriteExistingJobs" value="true" />
+
+		<property name="applicationContextSchedulerContextKey" value="applicationContext" />
+
+		<property name="jobFactory">
+			<bean class="com.pax.common.schedule.AutowiringSpringBeanJobFactory" />
+		</property>
+
+		<property name="configLocation" value="${quartz.config}" />
+		<property name="driver" value="${database.driverClass}" />
+		<property name="url" value="${database.url}" />
+		<property name="user" value="${database.user}" />
+		<property name="password" value="${database.password}" />
+		<property name="validationQuery" value="${database.validationQuery}" />
+		<property name="autoStartup" value="true" />
+
+		<!-- NOTE: Must add both the jobDetail and trigger to the scheduler! -->
+		<property name="triggers">
+			<list>
+				<ref bean="updateUserStatusTrigger" />
+				<ref bean="updateLdapUserInfoTrigger" />
+				<ref bean="processRealStatusTrigger" />
+				<ref bean="processUsageStatusTrigger" />
+				<ref bean="clearDeletedPackageFilesTrigger" />
+				<ref bean="systemCleanJobTrigger" />
+				<ref bean="clearNotUsedPkgJobTrigger" />
+				<ref bean="clearOverdueDeployJobTrigger" />
+				<ref bean="clearGroupDownloadedTaskJobTrigger" />
+				<ref bean="UpdateCurrentMonthTerminalBillingTrigger" />
+			</list>
+		</property>
+		<property name="jobDetails">
+			<list>
+				<ref bean="updateUserStatusJob" />
+				<ref bean="updateLdapUserInfoJob" />
+				<ref bean="processRealStatusJob" />
+				<ref bean="processUsageStatusJob" />
+				<ref bean="clearDeletedPackageFilesJob" />
+				<ref bean="systemCleanJob" />
+				<ref bean="clearNotUsedPkgJob" />
+				<ref bean="clearOverdueDeployJob" />
+				<ref bean="clearGroupDownloadedTaskJob" />
+				<ref bean="updateCurrentMonthTerminalBillingJob" />
+			</list>
+		</property>
+		<property name="taskExecutor" ref="taskScheduler" />
+	</bean>
+
+	<!-- update user status job -->
+	<bean id="updateUserStatusJob" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+		<property name="jobClass" value="com.pax.tms.schedule.UpdateUserStatusJob" />
+		<property name="durability" value="true" />
+		<property name="requestsRecovery" value="false" />
+	</bean>
+
+	<bean id="updateUserStatusTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="updateUserStatusJob" />
+		<!-- 每天四点 -->
+		<property name="cronExpression" value="0 0 4 * * ?" />
+	</bean>
+
+	<!-- update ladap user info job -->
+	<bean id="updateLdapUserInfoJob" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+		<property name="jobClass" value="com.pax.tms.schedule.UpdateLdapUserInfoJob" />
+		<property name="durability" value="true" />
+		<property name="requestsRecovery" value="false" />
+	</bean>
+
+	<bean id="updateLdapUserInfoTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="updateLdapUserInfoJob" />
+		<!-- 每天四点半 -->
+		<property name="cronExpression" value="0 30 4 * * ?" />
+	</bean>
+
+	<!-- process terminal real status job -->
+	<bean id="processRealStatusJob" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+		<property name="jobClass" value="com.pax.tms.schedule.ProcessRealStatusJob" />
+		<property name="durability" value="true" />
+		<property name="requestsRecovery" value="false" />
+	</bean>
+
+	<bean id="processRealStatusTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="processRealStatusJob" />
+		<!-- 每5分一次 -->
+		<property name="cronExpression" value="0 /5 * * * ?" />
+	</bean>
+
+	<!-- process terminal usage report job -->
+	<bean id="processUsageStatusJob" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+		<property name="jobClass" value="com.pax.tms.schedule.ProcessUsageStatusJob" />
+		<property name="durability" value="true" />
+		<property name="requestsRecovery" value="false" />
+	</bean>
+   <!-- 每天0点5分 -->
+	<bean id="processUsageStatusTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="processUsageStatusJob" />
+		<property name="cronExpression" value="0 5 0 * * ?" />
+	</bean>
+
+	<!-- clear deleted package files job -->
+	<bean id="clearDeletedPackageFilesJob" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+		<property name="jobClass" value="com.pax.tms.schedule.ClearDeletedPackageFilesJob" />
+		<property name="durability" value="true" />
+		<property name="requestsRecovery" value="false" />
+	</bean>
+
+	<bean id="clearDeletedPackageFilesTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="clearDeletedPackageFilesJob" />
+		<!-- 每天6点 -->
+		<property name="cronExpression" value="0 0 6 * * ?" />
+	</bean>
+	
+	<!-- system clean job -->
+	<bean id="systemCleanJob" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+		<property name="jobClass" value="com.pax.tms.schedule.SystemCleanJob" />
+		<property name="durability" value="true" />
+		<property name="requestsRecovery" value="false" />
+	</bean>
+
+	<bean id="systemCleanJobTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="systemCleanJob" />
+		<!-- 每天四点 -->
+		<property name="cronExpression" value="0 0 4 * * ?" />
+	</bean>
+	
+	<!-- clear not used Pkg job -->
+	<bean id="clearNotUsedPkgJob" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+		<property name="jobClass" value="com.pax.tms.schedule.ClearNotUsedPkgJob" />
+		<property name="durability" value="true" />
+		<property name="requestsRecovery" value="false" />
+	</bean>
+
+	<bean id="clearNotUsedPkgJobTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="clearNotUsedPkgJob" />
+		<!-- 每天四点 -->
+		<property name="cronExpression" value="0 0 4 * * ?" />
+	</bean>
+	
+	<!-- clear overdue deploy job -->
+	<bean id="clearOverdueDeployJob" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+		<property name="jobClass" value="com.pax.tms.schedule.ClearOverdueDeployJob" />
+		<property name="durability" value="true" />
+		<property name="requestsRecovery" value="false" />
+	</bean>
+
+	<bean id="clearOverdueDeployJobTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="clearOverdueDeployJob" />
+		<!-- 每30分 -->
+		<property name="cronExpression" value="0 /30 * * * ?" />
+	</bean>
+	
+	<!-- clear downloadedTask job -->
+	<bean id="clearGroupDownloadedTaskJob" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+		<property name="jobClass" value="com.pax.tms.schedule.ClearGroupDownloadedTask" />
+		<property name="durability" value="true" />
+		<property name="requestsRecovery" value="false" />
+	</bean>
+
+	<bean id="clearGroupDownloadedTaskJobTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="clearGroupDownloadedTaskJob" />
+		<!-- 每天四点 -->
+		<property name="cronExpression" value="0 0 4 * * ?" />
+	</bean>
+	
+	<!-- update terminal billing -->
+	<!--  0 50 23 L * ? -->
+	<!--  0 15 18 * * ? -->
+	<bean id="timeZone_bt" class="java.util.TimeZone" factory-method="getTimeZone">
+		<constructor-arg value="GMT"/>
+	</bean>
+	<bean id="updateCurrentMonthTerminalBillingJob" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+		<property name="jobClass" value="com.pax.tms.schedule.UpdateCurrentMonthTerminalBillingJob" />
+		<property name="durability" value="true" />
+		<property name="requestsRecovery" value="false" />
+	</bean>
+	
+	<bean id="UpdateCurrentMonthTerminalBillingTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="updateCurrentMonthTerminalBillingJob" />
+		<!-- 每月最后一天23:30:00 -->
+		<property name="cronExpression" value="0 50 23 L * ?" />
+		<property name="timeZone" ref="timeZone_bt"/>
+	</bean>
+	
+</beans>

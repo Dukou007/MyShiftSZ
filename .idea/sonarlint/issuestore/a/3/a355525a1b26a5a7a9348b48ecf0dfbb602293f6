@@ -1,0 +1,25 @@
+
+m
+java:S1192‹"QDefine a constant instead of duplicating this literal "HH:mm MM/dd/yyyy" 3 times.(î˜µıÿÿÿÿÿ
+a
+java:S1192m"FDefine a constant instead of duplicating this literal "title" 5 times.(ëãşÿÿÿÿ
+e
+java:S1192l"JDefine a constant instead of duplicating this literal "activeUrl" 5 times.(íğ¨ıÿÿÿÿ
+u
+java:S1192‚"YDefine a constant instead of duplicating this literal "msg.group.groupRequired" 15 times.(ÁÉ¦ıÿÿÿÿ
+h
+java:S1192Å"LDefine a constant instead of duplicating this literal "deployGroup" 3 times.(û±â¡ıÿÿÿÿ
+a
+java:S1192k"FDefine a constant instead of duplicating this literal "group" 5 times.(¹·—’øÿÿÿÿ
+x
+java:S1488¥"\Immediately return this expression instead of assigning it to the temporary variable "list".(¦Êºıÿÿÿÿ
+p
+java:S2293ª"YReplace the type specification in this constructor call with the diamond operator ("<>").(ìÑµà
+^
+java:S1854À"BRemove this useless assignment to local variable "parentTimeZone".(í‚»éùÿÿÿÿ
+^
+java:S1126•"BReplace this if-then-else statement by a single method invocation.(¥¡Òöıÿÿÿÿ
+^
+java:S1126¦"BReplace this if-then-else statement by a single method invocation.(¥¡Òöıÿÿÿÿ
+u
+java:S2293´"YReplace the type specification in this constructor call with the diamond operator ("<>").(Ñ·Ğîúÿÿÿÿ

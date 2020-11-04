@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/cas/cas.iml" filepath="$PROJECT_DIR$/cas/cas.iml" />
+      <module fileurl="file://$PROJECT_DIR$/tms3.iml" filepath="$PROJECT_DIR$/tms3.iml" />
+      <module fileurl="file://$PROJECT_DIR$/tms3-lib/tms3-lib.iml" filepath="$PROJECT_DIR$/tms3-lib/tms3-lib.iml" />
+      <module fileurl="file://$PROJECT_DIR$/tms3-pxretailer/tms3-pxretailer.iml" filepath="$PROJECT_DIR$/tms3-pxretailer/tms3-pxretailer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/tms3-webapp/tms3-webapp.iml" filepath="$PROJECT_DIR$/tms3-webapp/tms3-webapp.iml" />
+    </modules>
+  </component>
+</project>

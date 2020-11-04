@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	<ehcache name="hibernate_cache">
+	<diskStore path="java.io.tmpdir/hibernate_cache" />
+	<defaultCache maxElementsInMemory="1000" eternal="false" timeToIdleSeconds="3600"
+	timeToLiveSeconds="3600" overflowToDisk="false">
+	</defaultCache>
+	<cache name="com.paxsz.demo.model.UserModel" maxElementsInMemory="2000" eternal="false" timeToIdleSeconds="3600"
+	timeToLiveSeconds="3600"
+	overflowToDisk="false"> </cache>
+	<cache name="org.hibernate.cache.internal.StandardQueryCache" maxElementsInMemory="5000"
+	eternal="false" timeToLiveSeconds="3600" overflowToDisk="false" />
+	<cache name="org.hibernate.cache.spi.UpdateTimestampsCache" maxElementsInMemory="5000"
+	eternal="true" overflowToDisk="true" />
+	</ehcache>
+-->
+
+<eh:config xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xmlns:eh='http://www.ehcache.org/v3'
+	xmlns:jsr107='http://www.ehcache.org/v3/jsr107'
+	xsi:schemaLocation="
+        http://www.ehcache.org/v3 http://www.ehcache.org/schema/ehcache-core-3.1.xsd
+        http://www.ehcache.org/v3/jsr107 http://www.ehcache.org/schema/ehcache-107-ext-3.1.xsd">
+
+	<eh:persistence directory="hibernate_cache/ppm" />
+
+	<eh:heap-store>
+		<eh:max-object-graph-size>1000</eh:max-object-graph-size>
+		<eh:max-object-size unit="MB">20</eh:max-object-size>
+	</eh:heap-store>
+
+	<eh:cache alias="foo">
+		<eh:key-type>java.lang.String</eh:key-type>
+		<eh:value-type>java.lang.String</eh:value-type>
+		<eh:resources>
+			<eh:heap unit="entries">2000</eh:heap>
+			<eh:offheap unit="MB">500</eh:offheap>
+		</eh:resources>
+	</eh:cache>
+
+	<eh:cache-template name="myDefaults">
+		<eh:key-type>java.lang.Long</eh:key-type>
+		<eh:value-type>java.lang.String</eh:value-type>
+		<eh:heap unit="entries">200</eh:heap>
+	</eh:cache-template>
+
+</eh:config>

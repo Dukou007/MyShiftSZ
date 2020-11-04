@@ -1,0 +1,5 @@
+eclipse.preferences.version=1
+extraProperties=sonar.host.url\=http\://192.168.6.113\:8081\r\nsonar.sources\=src/main,etc/conf\r\nsonar.exclusions\=\r\nsonar.login\=3e76fe51a0a70e0c2d3f6cda04c89e4b92203b5b
+projectKey=com.pax\:tms3-pxretailer
+serverUrl=http\://192.168.100.117\:9000
+version=2

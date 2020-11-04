@@ -1,0 +1,191 @@
+    * {
+        padding: 0px;
+        margin: 0px;
+    }
+    
+    .hint_body {
+        width: 100%;
+        height: 100%;
+        background: #f2f5f7;
+        padding-top: 200px;
+    }
+    
+    .hint_logo {
+        width: 100%;
+        position: absolute;
+        text-align: center;
+        top: 130px;
+    }
+    
+    .hint_container {
+        width: 760px;
+        box-shadow: 5px 5px 10px #bfbdbd;
+        margin: 0 auto;
+        box-sizing: content-box;
+        border-radius: 10px;
+    }
+    
+    .hint_title {
+        width: 100%;
+        height: 30px;
+        line-height: 30px;
+        position: relative;
+    }
+    
+    .hint_title p {
+        position: absolute;
+        top: -9px;
+        left: 15px;
+        width: 45px;
+        height: 45px;
+        line-height: 45px;
+        border-radius: 50%;
+        background-color: #fff;
+        text-align: center;
+        padding-top: 5px;
+    }
+    .hint_title.success_title {
+        background-color: #59c402;
+    }
+    .hint_title.warning_title {
+        background-color: #F4DB45;
+    }
+    .hint_title.error_title {
+        background-color: #FF7068;
+    }
+    .success_title p:before{
+        content: '\e618';
+        color: #59c402;
+        font-size: 35px;
+    }
+    .error_title p:before{
+        content: '\e619';
+        color: #59c402;
+        font-size: 35px;
+    }
+    .warning_title p:before{
+        content: '\e617';
+         color: #59c402;
+        font-size: 35px;
+    }
+    .hint_msg {
+        text-align: left;
+        padding: 30px 40px;
+        background-color: #fff;
+        color: #273696;
+    }
+    .success_msg {
+        color: #59c402;
+    }
+    .warning_msg {
+        color: #F5DD1F;
+    }
+    .error_msg {
+        color: #FF7068;
+    }
+    .hint_footer {
+        height: 40px;
+        background: #fff;
+        border-top: 1px solid #cfdce5;
+        line-height: 40px;
+        text-align: center;
+        color: #9da4b6;
+        width: 100%;
+        position: absolute;
+        bottom: 0px;
+        left: 0px;
+    }
+    
+    .hint_footer > a {
+        color: #273696;
+        cursor: pointer;
+    }
+    
+    @media screen and (max-width: 767px) {
+        .hint_container {
+            width: 90% !important;
+        }
+    }
+    
+@font-face {font-family: "iconfont";
+  src: url('iconfont.eot?t=1482905814747'); /* IE9*/
+  src: url('iconfont.eot?t=1482905814747#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('iconfont.woff?t=1482905814747') format('woff'), /* chrome, firefox */
+  url('iconfont.ttf?t=1482905814747') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
+  url('iconfont.svg?t=1482905814747#iconfont') format('svg'); /* iOS 4.1- */
+}
+
+.iconfont {
+  font-family:"iconfont" !important;
+  font-size:16px;
+  font-style:normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-hanglvjingshitubiaoyanzhongcuowu:before { content: "\e619"; }
+
+.icon-xitongfanhui:before { content: "\e616"; }
+
+.icon-xitongxiayibu:before { content: "\e60e"; }
+
+.icon-jinggao1:before { content: "\e617"; }
+
+.icon-leftmenuicondashboard:before { content: "\e600"; }
+
+.icon-leftmenuiconreports:before { content: "\e601"; }
+
+.icon-leftmenuicongroups:before { content: "\e602"; }
+
+.icon-leftmenuiconterminals:before { content: "\e603"; }
+
+.icon-leftmenuiconpackage:before { content: "\e604"; }
+
+.icon-leftmenuiconusermanagement:before { content: "\e605"; }
+
+.icon-leftmenuiconadministrater:before { content: "\e606"; }
+
+.icon-dashboardbuttongroup:before { content: "\e607"; }
+
+.icon-statusiconoffine:before { content: "\e608"; }
+
+.icon-statusiconpendingactivations:before { content: "\e609"; }
+
+.icon-statusiconpendingdownload:before { content: "\e60a"; }
+
+.icon-statusiconprivacyshield:before { content: "\e60b"; }
+
+.icon-statusiconstylus:before { content: "\e60c"; }
+
+.icon-statusicontampers:before { content: "\e60d"; }
+
+.icon-acontentset:before { content: "\e60f"; }
+
+.icon-adashboardbuttongroup:before { content: "\e610"; }
+
+.icon-adashboardbuttonterminal:before { content: "\e611"; }
+
+.icon-aleftmenubuttonleave:before { content: "\e612"; }
+
+.icon-aleftmenubuttonwarning:before { content: "\e613"; }
+
+.icon-alogobuttontms:before { content: "\e614"; }
+
+.icon-aaleftmenuiconusermanagement:before { content: "\e615"; }
+
+.icon-acontenticonadd:before { content: "\e664"; }
+
+.icon-icon-search1:before { content: "\e66a"; }
+
+.icon-icon-search2:before { content: "\e66b"; }
+
+.icon-chenggong2:before { content: "\e618"; }
+
+.icon-button-event:before { content: "\e66d"; }
+
+.icon-leftmenu-down:before { content: "\e66e"; }
+
+.icon-leftmenu-circle:before { content: "\e66f"; }
+
+.icon-button-alert:before { content: "\e670"; }
+

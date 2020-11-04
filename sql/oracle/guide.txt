@@ -1,0 +1,22 @@
+create temporary tablespace paxppm_temp tempfile '/home/oracle/oradata/paxppm/temp01.dbf' size 1000m;
+
+create tablespace paxppm_data logging datafile '/home/oracle/oradata/paxppm/data01.dbf' size 1000m autoextend on next 1000m maxsize unlimited extent management local segment space management auto;
+
+create user paxppm identified by PaxPPM#759hz default tablespace paxppm_data temporary tablespace paxppm_temp;
+
+grant connect,resource to paxppm;
+
+ALTER USER paxppm QUOTA UNLIMITED ON  paxppm_data;
+
+#################################
+####### init ppm database #######
+#################################
+sqlplus [TMS database user]/[TMS database password]@[ oracle database name]
+SQL> spool paxppm.log;
+SQL> set define off;
+SQL> @ create_tms.sql;
+SQL> @ init_tms.sql;
+SQL> @ country.sql;
+SQL> @ permission.sql;
+SQL> @ tables_oracle.sql;
+SQL> spool off;

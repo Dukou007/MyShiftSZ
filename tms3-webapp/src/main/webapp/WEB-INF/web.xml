@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
+
+	<display-name>PAX TMS</display-name>
+
+	<absolute-ordering>
+		<name>log4j</name>
+		<others />
+	</absolute-ordering>
+
+	<context-param>
+		<param-name>isJavaElMethodInvocationsEnabled</param-name>
+		<param-value>true</param-value>
+	</context-param>
+	<context-param>
+		<param-name>isHttpsHostnameVerifierDisabled</param-name>
+		<param-value>true</param-value>
+	</context-param>
+	<listener>
+		<listener-class>com.pax.common.web.listener.WebContextListener</listener-class>
+	</listener>
+
+	<!-- Listener that flushes the JDK's JavaBeans Introspector cache on web
+		app shutdown. Register this listener in your web.xml to guarantee proper
+		release of the web application class loader and its loaded classes. If the
+		JavaBeans Introspector has been used to analyze application classes, the
+		system-level Introspector cache will hold a hard reference to those classes.
+		Consequently, those classes and the web application class loader will not
+		be garbage-collected on web app shutdown! This listener performs proper cleanup,
+		to allow for garbage collection to take effect. Unfortunately, the only way
+		to clean up the Introspector is to flush the entire cache, as there is no
+		way to specifically determine the application's classes referenced there.
+		This will remove cached introspection results for all other applications
+		in the server too. -->
+	<listener>
+		<listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
+	</listener>
+
+	<!-- Bootstrap listener to start up and shut down Spring's root WebApplicationContext.
+		Simply delegates to ContextLoader as well as to ContextCleanupListener. This
+		listener should be registered after org.springframework.web.util.Log4jConfigListener
+		in web.xml, if the latter is used. -->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>
+			classpath:ppm/spring-configuration/propertyFileConfigurer.xml,
+			classpath:ppm/spring-configuration/emailContext.xml,
+			classpath:ppm/spring-configuration/spring-config.xml,
+			classpath:ppm/spring-configuration/spring-shiro.xml,
+			classpath:ppm/spring-configuration/scheduler.xml,
+			classpath:ppm/spring-configuration/spring-ldap.xml,
+			classpath:ppm/spring-configuration/spring-fastdfs.xml,
+			classpath:ppm/spring-configuration/spring-redis.xml,
+			classpath:ppm/cxf/spring-cxf.xml
+		</param-value>
+	</context-param>
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+
+	<!-- shiro -->
+	<listener>
+		<listener-class>org.jasig.cas.client.session.SingleSignOutHttpSessionListener</listener-class>
+	</listener>
+	<listener>
+		<listener-class>com.pax.tms.user.security.UserSessionListener</listener-class>
+	</listener>
+
+	<!-- Servlet Filter that allows one to specify a character encoding for
+		requests. This is useful because current browsers typically do not set a
+		character encoding even if specified in the HTML page or form. -->
+	<filter>
+		<filter-name>Set Character Encoding</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+		<init-param>
+			<param-name>forceEncoding</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>Set Character Encoding</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<!--CXF Configuration -->
+	<servlet>
+		<servlet-name>CXFServlet</servlet-name>
+		<servlet-class>org.apache.cxf.transport.servlet.CXFServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>CXFServlet</servlet-name>
+		<url-pattern>/webservice/*</url-pattern>
+	</servlet-mapping>
+
+	<!-- Security Headers Filter -->
+	<filter>
+		<filter-name>securityHeadersFilter</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+		<init-param>
+			<param-name>targetFilterLifecycle</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>securityHeadersFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<!-- Shiro -->
+	<filter>
+		<filter-name>shiroFilter</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+		<init-param>
+			<param-name>targetFilterLifecycle</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>shiroFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+		<dispatcher>REQUEST</dispatcher>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>INCLUDE</dispatcher>
+		<dispatcher>ERROR</dispatcher>
+	</filter-mapping>
+
+	<!-- javax.servlet.Filter that converts posted method parameters into HTTP
+		methods, retrievable via HttpServletRequest.getMethod(). Since browsers currently
+		only support GET and POST, a common technique - used by the Prototype library,
+		for instance - is to use a normal POST with an additional hidden form field
+		(_method) to pass the "real" HTTP method along. This filter reads that parameter
+		and changes the HttpServletRequestWrapper.getMethod() return value accordingly.
+		The name of the request parameter defaults to _method, but can be adapted
+		via the methodParam property. NOTE: This filter needs to run after multipart
+		processing in case of a multipart POST request, due to its inherent need
+		for checking a POST body parameter. So typically, put a Spring org.springframework.web.multipart.support.MultipartFilter
+		before this HiddenHttpMethodFilter in your web.xml filter chain. -->
+	<filter>
+		<filter-name>HiddenHttpMethodFilter</filter-name>
+		<filter-class>org.springframework.web.filter.HiddenHttpMethodFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>HiddenHttpMethodFilter</filter-name>
+		<servlet-name>springMVC</servlet-name>
+	</filter-mapping>
+
+	<!-- Servlet Filter that binds a Hibernate Session to the thread for the
+		entire processing of the request. Intended for the "Open Session in View"
+		pattern, i.e. to allow for lazy loading in web views despite the original
+		transactions already being completed. This filter makes Hibernate Sessions
+		available via the current thread, which will be autodetected by transaction
+		managers. It is suitable for service layer transactions via org.springframework.orm.hibernate5.HibernateTransactionManager
+		as well as for non-transactional execution (if configured appropriately). -->
+	<filter>
+		<filter-name>openSessionInViewFilter</filter-name>
+		<filter-class>org.springframework.orm.hibernate5.support.OpenSessionInViewFilter</filter-class>
+		<init-param>
+			<param-name>singleSession</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>openSessionInViewFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+	 <filter>
+        <filter-name>xssFilter</filter-name>
+        <filter-class>com.pax.common.security.XssFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>xssFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+	<!-- SpringMVC servlet Central dispatcher for HTTP request handlers/controllers,
+		e.g. for web UI controllers or HTTP-based remote service exporters. Dispatches
+		to registered handlers for processing a web request, providing convenient
+		mapping and exception handling facilities. -->
+	<servlet>
+		<servlet-name>springMVC</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>
+				classpath:ppm/spring-configuration/spring-servlet.xml
+			</param-value>
+		</init-param>
+		<load-on-startup>2</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>springMVC</servlet-name>
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+
+	<jsp-config>
+		<taglib>
+			<taglib-uri>http://www.pax.com/tms</taglib-uri>
+			<taglib-location>/WEB-INF/tld/tms-tag.tld</taglib-location>
+		</taglib>
+	</jsp-config>
+
+	<session-config>
+		<session-timeout>15</session-timeout>
+		<cookie-config>
+    		<secure>true</secure>
+  		</cookie-config>
+  		 <tracking-mode>COOKIE</tracking-mode>
+	</session-config>
+	
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>BDC</web-resource-name>
+			<url-pattern>/*</url-pattern>
+			<http-method>DELETE</http-method>
+			<http-method>HEAD</http-method>
+			<http-method>TRACE</http-method>
+			<http-method>OPTIONS</http-method>
+		</web-resource-collection>
+		<auth-constraint/>
+	</security-constraint>
+
+	<welcome-file-list>
+		<welcome-file>/index</welcome-file>
+	</welcome-file-list>
+
+	<error-page>
+		<location>/WEB-INF/jsp/errors.jsp</location>
+	</error-page>
+	<error-page>
+		<exception-type>java.lang.Throwable</exception-type>
+		<location>/WEB-INF/jsp/errors.jsp</location>
+	</error-page>
+	<error-page>
+		<error-code>401</error-code>
+		<location>/WEB-INF/jsp/authorizationFailure.jsp</location>
+	</error-page>
+	<error-page>
+		<error-code>403</error-code>
+		<location>/WEB-INF/jsp/authorizationFailure.jsp</location>
+	</error-page>
+	<error-page>
+		<error-code>404</error-code>
+		<location>/</location>
+	</error-page>
+	
+ 	<error-page>
+        <error-code>302</error-code>
+        <location>/WEB-INF/view/jsp/errors.jsp</location>
+    </error-page>
+    
+	<error-page>
+		<error-code>500</error-code>
+		<location>/WEB-INF/jsp/errors.jsp</location>
+	</error-page>
+	<error-page>
+		<error-code>501</error-code>
+		<location>/WEB-INF/jsp/errors.jsp</location>
+	</error-page>
+	<error-page>
+		<error-code>503</error-code>
+		<location>/WEB-INF/jsp/errors.jsp</location>
+	</error-page>
+</web-app>

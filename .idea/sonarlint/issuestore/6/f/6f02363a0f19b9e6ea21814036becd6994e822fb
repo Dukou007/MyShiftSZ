@@ -1,0 +1,13 @@
+
+R
+java:S2589]"7Remove this expression which always evaluates to "true"(ρ•µζϋÿÿÿÿ
+z
+java:S3008"_Rename this field "DASHBOARD_KEY_PREFIX" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ό΅βωÿÿÿÿ
+‹
+java:S11304"vRemove the declaration of thrown exception 'org.springframework.dao.DataAccessException' which is a runtime exception.(Χλ
+‹
+java:S1130Q"vRemove the declaration of thrown exception 'org.springframework.dao.DataAccessException' which is a runtime exception.(Χλ
+’
+java:S1130¥"vRemove the declaration of thrown exception 'org.springframework.dao.DataAccessException' which is a runtime exception.(ίωΒϊÿÿÿÿ
+’
+java:S1130΄"vRemove the declaration of thrown exception 'org.springframework.dao.DataAccessException' which is a runtime exception.(Ρϊÿÿÿÿ

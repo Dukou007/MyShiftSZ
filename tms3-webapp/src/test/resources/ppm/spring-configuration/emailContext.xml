@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+  xmlns:context="http://www.springframework.org/schema/context"
+  xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+       ">
+
+  <!--
+    Production implementation of the JavaMailSender interface, supporting both JavaMail
+    MimeMessages and Spring SimpleMailMessages. Can also be used as a plain
+    org.springframework.mail.MailSender implementation.
+  -->
+  <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+    <property name="host" value="${email.host}" />
+    <property name="port" value="${email.port}" />
+    <property name="username" value="${email.user}" />
+    <property name="password" value="${email.password}" />
+    <property name="javaMailProperties">
+      <props>
+        <prop key="mail.smtp.auth">${email.auth}</prop>
+        <prop key="mail.smtp.timeout">${email.timeout}</prop>
+        <prop key="mail.from">${email.from}</prop>
+        <prop key="mail.name">${email.name}</prop>
+        <prop key="mail.smtp.socketFactory.class">${email.socketFactory}</prop>
+        <prop key="mail.smtp.starttls.enable">true</prop>
+        <prop key="mail.smtp.starttls.required">true</prop>
+      </props>
+    </property>
+  </bean>
+
+  <!--
+    JavaBean that allows for configuring a java.util.concurrent.ThreadPoolExecutor in bean style (through
+    its "corePoolSize", "maxPoolSize", "keepAliveSeconds", "queueCapacity" properties) and exposing it
+    as a Spring org.springframework.core.task.TaskExecutor. This class is also well suited for
+    management and monitoring (e.g. through JMX), providing several useful attributes: "corePoolSize",
+    "maxPoolSize", "keepAliveSeconds" (all supporting updates at runtime); "poolSize", "activeCount" (for
+    introspection only).
+  -->
+  <bean id="sendEmailTaskExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+    <property name="corePoolSize" value="1" />
+    <property name="maxPoolSize" value="10" />
+  </bean>
+
+
+  <bean id="resetPasswordMailSender" class="com.pax.tms.user.ResetPasswordMailSender" />
+  <bean id="createUserMailSender" class="com.pax.tms.user.CreateUserMailSender" />
+  <bean id="forgetPasswordMailSender" class="com.pax.tms.user.ForgetPasswordMailSender" />
+  <bean id="inactiveAccountMailSender" class="com.pax.tms.user.InactiveAccountMailSender" />
+  <bean id="passwordExpiredMailSender" class="com.pax.tms.user.PasswordExpiredMailSender" />
+  <bean id="subscribeMailSender" class="com.pax.tms.monitor.web.SubscribeMailSender" />
+
+</beans>

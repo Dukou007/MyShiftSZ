@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.3.xsd
+      http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.3.xsd">
+
+	<!-- Enables the detection of @Async and @Scheduled annotations on any Spring-managed
+		object. If present, a proxy will be generated for executing the annotated
+		methods asynchronously. -->
+	<task:annotation-driven executor="asynchronousMethodsExecutor" scheduler="taskScheduler" />
+
+
+	<!-- Defines a ThreadPoolTaskExecutor instance with configurable pool size,
+		queue-capacity, keep-alive, and rejection-policy values. -->
+	<task:executor id="asynchronousMethodsExecutor" pool-size="10-25" keep-alive="120" queue-capacity="100"
+		rejection-policy="CALLER_RUNS" />
+
+	<!-- Defines a ThreadPoolTaskScheduler instance with configurable pool size. -->
+	<task:scheduler id="taskScheduler" pool-size="10" />
+
+	<!-- <task:scheduled-tasks scheduler="myScheduler"> <task:scheduled ref="beanA"
+		method="methodA" fixed-delay="5000" initial-delay="1000"/> <task:scheduled
+		ref="beanB" method="methodB" fixed-rate="5000"/> <task:scheduled ref="beanC"
+		method="methodC" cron="*/5 * * * * MON-FRI"/> </task:scheduled-tasks> -->
+
+	<!-- Using the Quartz Scheduler -->
+	<bean id="updateUserStatus" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+		<property name="jobClass" value="com.pax.tms.schedule.UpdateUserStatusJob" />
+		<!-- 因为我使用了spring的注解，所以这里可以不用配置scheduler的属性 -->
+		<property name="jobDataAsMap">
+			<map>
+				<entry key="timeout" value="5" />
+			</map>
+		</property>
+		<property name="durability" value="true" />
+		<property name="requestsRecovery" value="false" />
+	</bean>
+
+	<bean id="updateUserTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="updateUserStatus" />
+		<property name="cronExpression" value="0 0 11 * * ?" />
+	</bean>
+
+	<bean id="quartzScheduler" parent="baseQuartzScheduler">
+		<property name="configLocation" value="${quartz.config}" />
+		<property name="driver" value="${database.driverClass}" />
+		<property name="url" value="${database.url}" />
+		<property name="user" value="${database.user}" />
+		<property name="password" value="${database.password}" />
+		<property name="validationQuery" value="${database.validationQuery}" />
+
+		<property name="autoStartup" value="true" />
+		<!-- This name is persisted as SCHED_NAME in db. for local testing could
+			change to unique name to avoid collision with dev server -->
+		<property name="schedulerName" value="tmsQuartzScheduler" />
+		<!-- NOTE: Must add both the jobDetail and trigger to the scheduler! -->
+		<property name="triggers">
+			<list>
+				<ref bean="updateUserTrigger" />
+				<ref bean="processRealStatusTrigger" />
+				<ref bean="processUsageStatusTrigger" />
+				<ref bean="updateLdapInfoTrigger" />
+			</list>
+		</property>
+		<property name="jobDetails">
+			<list>
+				<ref bean="updateUserStatus" />
+				<ref bean="processRealStatus" />
+				<ref bean="processUsageStatus" />
+				<ref bean="updateLdapInfoStatus" />
+			</list>
+		</property>
+		<property name="taskExecutor" ref="taskScheduler" />
+	</bean>
+
+
+	<bean id="baseQuartzScheduler" class="com.pax.common.schedule.DatasourceSchedulerFactoryBean">
+		<!-- <property name="configLocation" value="classpath:quartz.properties"
+			/> -->
+		<property name="dataSource" ref="dataSource" />
+		<property name="transactionManager" ref="txManager" />
+
+		<!-- This name is persisted as SCHED_NAME in db. for local testing could
+			change to unique name to avoid collision with dev server -->
+		<property name="schedulerName" value="quartzScheduler" />
+
+		<!-- Will update database cron triggers to what is in this jobs file on
+			each deploy. Replaces all previous trigger and job data that was in the database.
+			YMMV -->
+		<property name="overwriteExistingJobs" value="true" />
+		<!-- <property name="autoStartup" value="true" /> -->
+		<property name="applicationContextSchedulerContextKey" value="applicationContext" />
+
+		<property name="jobFactory">
+			<bean class="com.pax.common.schedule.AutowiringSpringBeanJobFactory" />
+		</property>
+		<!-- NOTE: Must add both the jobDetail and trigger to the scheduler! -->
+		<!-- <property name="jobDetails"> <list> </list> </property> <property
+			name="triggers"> <list> </list> </property> -->
+	</bean>
+
+	<!-- <bean name="exampleJob" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+		<property name="jobClass" value="example.ExampleJob"/> <property name="jobDataAsMap">
+		<map> <entry key="timeout" value="5"/> </map> </property> </bean> <bean id="jobDetail"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="exampleBusinessObject"/> <property name="targetMethod"
+		value="doIt"/> <property name="concurrent" value="false"/> </bean> <bean
+		id="simpleTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerFactoryBean">
+		<property name="jobDetail" ref="jobDetail" /> <property name="startDelay"
+		value="10000" /> <property name="repeatInterval" value="50000" /> </bean>
+		<bean id="cronTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="exampleJob" /> <property name="cronExpression"
+		value="0 0 6 * * ?" /> </bean> <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers"> <list> <ref bean="cronTrigger"/> <ref bean="simpleTrigger"/>
+		</list> </property> </bean> -->
+
+
+	<bean id="processRealStatus" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+		<property name="jobClass" value="com.pax.tms.schedule.ProcessRealStatusJob" />
+		<!-- 因为我使用了spring的注解，所以这里可以不用配置scheduler的属性 -->
+		<property name="jobDataAsMap">
+			<map>
+				<entry key="timeout" value="5" />
+			</map>
+		</property>
+		<property name="durability" value="true" />
+		<property name="requestsRecovery" value="false" />
+	</bean>
+
+	<bean id="processRealStatusTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="processRealStatus" />
+		<property name="cronExpression" value="0 /5 * * * ?" />
+	</bean>
+
+	<bean id="processUsageStatus" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+		<property name="jobClass" value="com.pax.tms.schedule.ProcessUsageStatusJob" />
+		<!-- 因为我使用了spring的注解，所以这里可以不用配置scheduler的属性 -->
+		<property name="jobDataAsMap">
+			<map>
+				<entry key="timeout" value="5" />
+			</map>
+		</property>
+		<property name="durability" value="true" />
+		<property name="requestsRecovery" value="false" />
+	</bean>
+
+	<bean id="processUsageStatusTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="processUsageStatus" />
+		<property name="cronExpression" value="0 5 0 * * ?" />
+	</bean>
+
+	<bean id="updateLdapInfoStatus" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+		<property name="jobClass" value="com.pax.tms.schedule.UpdateLdapUserInfoJob" />
+		<!-- 因为我使用了spring的注解，所以这里可以不用配置scheduler的属性 -->
+		<property name="jobDataAsMap">
+			<map>
+				<entry key="timeout" value="5" />
+			</map>
+		</property>
+		<property name="durability" value="true" />
+		<property name="requestsRecovery" value="false" />
+	</bean>
+
+	<bean id="updateLdapInfoTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="updateLdapInfoStatus" />
+		<property name="cronExpression" value="0 0 12 * * ?" />
+	</bean>
+
+
+</beans>

@@ -1,0 +1,24 @@
+
+m
+java:S3776J"RRefactor this method to reduce its Cognitive Complexity from 27 to the 15 allowed.(É™Î¨úÿÿÿÿ
+Y
+java:S1155X">Use isEmpty() to check whether the collection is empty or not.(ýƒü†ýÿÿÿÿ
+a
+java:S1192s"FDefine a constant instead of duplicating this literal "index" 3 times.(¦œû×ÿÿÿÿÿ
+c
+java:S4488x"HReplace "@RequestMapping(method = RequestMethod.GET)" with "@GetMapping"(ƒ€óöúÿÿÿÿ
+n
+java:S1192^"XDefine a constant instead of duplicating this literal "msg.group.groupNotFound" 3 times.(ÂŒØ¿
+W	java:S125ƒ"<This block of commented-out lines of code should be removed.(„µÆŒûÿÿÿÿ
+u
+java:S2293›"YReplace the type specification in this constructor call with the diamond operator ("<>").(™ºöºýÿÿÿÿ
+Ž
+java:S1130J"sRemove the declaration of thrown exception 'org.ldaptive.LdapException', as it cannot be thrown from method's body.(É™Î¨úÿÿÿÿ
+V
+java:S1854L";Remove this useless assignment to local variable "groupId".(¢°ïÄùÿÿÿÿ
+_
+java:S4488™"HReplace "@RequestMapping(method = RequestMethod.PUT)" with "@PutMapping"(â®‰Ú
+V	java:S125e"<This block of commented-out lines of code should be removed.(”óŒÚúÿÿÿÿ
+V	java:S125t"<This block of commented-out lines of code should be removed.(„µÆŒûÿÿÿÿ
+^
+java:S4488I"HReplace "@RequestMapping(method = RequestMethod.GET)" with "@GetMapping"(£ú½ß

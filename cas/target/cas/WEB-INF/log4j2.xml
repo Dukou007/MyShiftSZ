@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+	AsyncLoggers Shutdown with Tomcat
+
+	Log4j automatically inserts itself into the runtime application context in a Servlet 3 environment (i.e.
+	Tomcat 8.x) and will clean up the logging context once the container is instructed to shut down. However,
+	Tomcat ignores all JAR files named log4j*.jar, which prevents this feature from working. You may need
+	to change the catalina.properties and remove log4j*.jar from the jarsToSkip property. You may need to
+	do something similar on other containers if they skip scanning Log4j JAR files.
+
+	Failure to do so will stop Tomcat to gracefully shut down and causes logger context threads to hang.
+-->
+
+<!-- Specify the refresh internal in seconds. -->
+<Configuration monitorInterval="60">
+	<Properties>
+		<Property name="LOG_HOME">${sys:tms.home}/logs</Property>
+	</Properties>
+	<Appenders>
+		<Console name="console" target="SYSTEM_OUT">
+			<ThresholdFilter level="trace" onMatch="ACCEPT" onMismatch="DENY" />
+			<PatternLayout pattern="%d %p [%t] - %m%n" />
+		</Console>
+
+		<RollingFile name="file" fileName="${LOG_HOME}/cas.log" append="true" filePattern="${LOG_HOME}/cas-%d{yyyy-MM-dd}-%i.log"
+			createOnDemand="true">
+			<PatternLayout pattern="%d %p [%t] - %m%n" />
+			<Policies>
+				<OnStartupTriggeringPolicy />
+				<SizeBasedTriggeringPolicy size="250 MB" />
+				<TimeBasedTriggeringPolicy />
+			</Policies>
+		</RollingFile>
+
+		<RollingFile name="auditlogfile" fileName="${LOG_HOME}/cas_audit.log" append="true"
+			filePattern="${LOG_HOME}/cas_audit-%d{yyyy-MM-dd}-%i.log" createOnDemand="true">
+			<PatternLayout pattern="%d %p - %m%n" />
+			<Policies>
+				<OnStartupTriggeringPolicy />
+				<SizeBasedTriggeringPolicy size="250 MB" />
+				<TimeBasedTriggeringPolicy />
+			</Policies>
+		</RollingFile>
+
+		<RollingFile name="perfFileAppender" fileName="${LOG_HOME}/cas_perfStats.log" append="true"
+			filePattern="${LOG_HOME}/cas_perfStats-%d{yyyy-MM-dd}-%i.log" createOnDemand="true">
+			<PatternLayout pattern="%d - %m%n" />
+			<Policies>
+				<OnStartupTriggeringPolicy />
+				<SizeBasedTriggeringPolicy size="250 MB" />
+				<TimeBasedTriggeringPolicy />
+			</Policies>
+		</RollingFile>
+	</Appenders>
+	<Loggers>
+		<AsyncRoot level="error">
+			<AppenderRef ref="console" />
+			<AppenderRef ref="file" />
+		</AsyncRoot>
+
+		<AsyncLogger name="org.springframework" level="error" />
+
+		<Logger name="org.pac4j" level="error" />
+
+		<AsyncLogger name="org.jasig" level="error" />
+
+		<AsyncLogger name="com.pax.tms" level="error" />
+
+		<AsyncLogger name="org.ldaptive" level="error" />
+    
+        <AsyncLogger name="com.pax.tms.cas.login.PxDesignerAttributeReleasePolicy" level="debug" />
+
+		<AsyncLogger name="org.jasig.inspektr.audit" level="error" additivity="false">
+			<AppenderRef ref="auditlogfile" />
+		</AsyncLogger>
+
+		<AsyncLogger name="perfStatsLogger" level="error" additivity="false">
+			<AppenderRef ref="perfFileAppender" />
+		</AsyncLogger>
+
+		<!--
+			<AsyncLogger name="com.pax.tms.cas.login.PxDesignerAttributeReleasePolicy" level="debug" />
+		-->
+	</Loggers>
+</Configuration>

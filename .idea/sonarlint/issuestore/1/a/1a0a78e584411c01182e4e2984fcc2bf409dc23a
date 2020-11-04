@@ -1,0 +1,25 @@
+
+z
+java:S1488È"cImmediately return this expression instead of assigning it to the temporary variable "versionList".(äË×â
+\
+java:S1192P"FDefine a constant instead of duplicating this literal "title" 4 times.(¤…‚Ä
+n
+java:S1192K"XDefine a constant instead of duplicating this literal "msg.group.groupNotFound" 6 times.(ÂŒØ¿
+`
+java:S1192O"JDefine a constant instead of duplicating this literal "activeUrl" 8 times.(Í¹
+{
+java:S1488Ö"dImmediately return this expression instead of assigning it to the temporary variable "offlineKeyId".(î©ü¯
+r
+java:S1488w"\Immediately return this expression instead of assigning it to the temporary variable "page".(à¼ÎŒ
+h
+java:S1192f"MDefine a constant instead of duplicating this literal "tsn.notFound" 3 times.(Ê˜Á×şÿÿÿÿ
+t
+java:S1192G"YDefine a constant instead of duplicating this literal "msg.group.groupRequired" 10 times.(ÁÉ¦ıÿÿÿÿ
+t
+java:S1192¼"XDefine a constant instead of duplicating this literal "msg.offlineKey.required" 6 times.(ÿ„êªûÿÿÿÿ
+a
+java:S1192N"FDefine a constant instead of duplicating this literal "group" 6 times.(¹·—’øÿÿÿÿ
+c
+java:S1192b"MDefine a constant instead of duplicating this literal "tsn.Required" 3 times.(„¿ç‹
+d
+java:S1192h"IDefine a constant instead of duplicating this literal "terminal" 3 times.(Ä–Æúøÿÿÿÿ

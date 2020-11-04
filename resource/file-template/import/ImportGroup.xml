@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<groups>
+	<group name="WDPR" country="Canada" stateorprovice="Quebec" city="Quebec" timeZone="Canada/Newfoundland"  daylight="Enable" zipcode="X0B1C4" address="" description="">
+		<group name="WDW" country="Canada" stateorprovice="Quebec" city="Quebec" timeZone="Canada/Newfoundland"  daylight="Enable" zipcode="X0B1C4" address="" description="">
+			<group name="Magic Kingdom" country="Canada" stateorprovice="Quebec" city="Quebec" timeZone="Canada/Newfoundland"  daylight="Enable" zipcode="X0B1C4" address=""
+				description="">
+				<group name="Hotels" country="Canada" stateorprovice="Quebec" city="Quebec" timeZone="Canada/Newfoundland"  daylight="Enable" zipcode="X0B1C4" address=""
+					description="" />
+				<group name="Sub-Parks" country="Canada" stateorprovice="Quebec" city="Quebec" timeZone="Canada/Newfoundland"  daylight="Enable" zipcode="X0B1C4" address=""
+					description="" />
+			</group>
+			<group name="Disney Springs" country="Canada" stateorprovice="Quebec" city="Quebec" timeZone="Canada/Newfoundland"  daylight="Enable" zipcode="X0B1C4" address=""
+				description="" />
+		</group>
+		<group name="WDL" country="Canada" stateorprovice="Quebec" city="Quebec" timeZone="Canada/Newfoundland"  daylight="Enable" zipcode="X0B1C4" address="777" description="">
+			<group name="DisneyLand Park" country="Canada" stateorprovice="Quebec" city="Quebec" timeZone="Canada/Newfoundland"  daylight="Enable" zipcode="X0B1C4" address=""
+				description="">
+			</group>
+		</group>
+	</group>
+</groups>

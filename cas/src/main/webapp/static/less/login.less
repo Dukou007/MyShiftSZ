@@ -1,0 +1,213 @@
+@import 'mixins.less' ;
+.login-body{
+    width: 100%;
+    height: 100%;
+
+    background:#f2f5f7;
+    text-align: center;
+    &:before{
+        content: '';
+        display: inline-block;
+        vertical-align: middle;
+        height: 100%;
+
+    }
+}
+.subTopic{
+    margin-bottom:25px;
+    text-align: center;
+}
+
+.boxBaby{
+   position: relative;
+    background: #fff;
+    box-shadow: 0px 4px 10px #bfbdbd;
+    border-radius: 2px;
+    overflow: hidden;
+
+}
+.login-form-panel{
+    padding: 30px;
+}
+.login-title-box{
+    width: 100%;
+    background: url(../images/login-title-bj.jpg) no-repeat;
+    background-size: cover;
+    height: 95px;
+    line-height: 95px;
+    color: #fff;
+    font-size: 24px;
+}
+.form-input-login{
+  width: 100%;
+  height: 34px;
+  line-height: 34px;
+  position: relative;
+  margin-bottom: 15px;
+  &.amount:before{
+    content: '\e615';
+  }
+  &.password:before{
+    content: '\e60b';
+  }
+  &:before{
+    display:block;
+    font-family: 'iconfont';
+    position: absolute;
+    right: 10px;
+    top: 0;
+    line-height: 34px;
+    color: #a4aabb;
+    font-size: 18px;
+  }
+  // &.focus{
+  //   input{
+  //       border-color: #087fb9;
+  //       -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px #087fb9;
+  //       box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px #087fb9;
+        
+  //   }
+  // }
+
+}
+.btn.login-btn{
+    background-color: #59c402;
+    width: 100%;
+    color: #fff;
+    height: 35px;
+    font-size: 14px;
+    
+}
+.login-checkbox{
+    margin:0px;
+}
+.loginText{
+    width: 100%;
+    height: 20px;
+    line-height: 16px;
+    margin: 0 auto 15px auto;
+    color: #878585;
+    font-size: 12px;
+    .checkbox label{
+        font-size: 12px;
+        color: #4a647e;
+    }
+}
+.loginPass{
+    color: #59c402;
+}
+.loginCheck{
+    display: inline-block;
+    
+    
+}
+.loginRemember{
+    display: inline-block;  
+}
+.loginImg{
+    display: inline-block;
+}
+.loginInput{
+    background-color: white;
+    width: 100%;
+    color: #333;
+    padding: 0 35px 0 15px;
+    height: 34px;
+    outline: none;
+    border:1px solid #d3e0ea;
+    border-radius: 4px;
+    line-height: 34px;
+    outline: none;
+     -webkit-appearance: none;
+     .placeholder({
+        color: #9da4b6;
+    });
+
+}
+.login-logo{
+    position: fixed;
+    left: 20px;
+    top: 20px;
+    z-index: 100;
+    width: 160px;
+    img{
+        width: 100%;
+    }
+}
+.login-panel{
+    width: 460px;
+    display: inline-block;
+    vertical-align: middle;
+    overflow: auto;
+    margin-top: -100px;
+    max-height: 100%;
+}
+.login-footer{
+    position: absolute;
+    bottom: 10px;
+    text-align: center;
+    line-height: 20px;
+    font-size: 12px;
+    color: #9da4b6;
+    width: 100%;
+    span+span{
+        margin-left: 30px;
+    }
+    a{
+        color: #59c402;
+    }
+}
+.login-info{
+    margin: 20px 0 0 0 ;
+    color: #fff;
+}
+.loginCenter{
+    margin: 0 auto;
+}
+.login-error{
+    width: 100%;
+    padding: 15px;
+    background: #fee4e3;
+    margin-bottom: 15px;
+    color: #ff7068;
+    border: 1px solid #e2432d;
+    word-wrap: break-word;
+    vertical-align: middle;
+    z-index: 10;
+    border-radius: 2px;
+    box-shadow: 0px 4px 10px #dcdfe1;
+    //.animation(showin, 1s forwards );
+    //.transform(translateY(-50px));
+    .glyphicon{
+        font-size: 18px;
+        float: left;
+        margin-right: 5px;
+    }
+
+
+}
+.login-alert-success{
+    width: 100%;
+    padding: 15px;
+    background: #e0f3d0;
+    margin-bottom: 15px;
+    color: #59c402;
+    border: 1px solid #59c402;
+    word-wrap: break-word;
+    vertical-align: middle;
+    z-index: 10;
+    border-radius: 2px;
+    box-shadow: 0px 4px 20px #dcdfe1;
+    //.animation(showin, 1s forwards );
+    //.transform(translateY(-50px));
+    .glyphicon{
+        font-size: 18px;
+        float: left;
+        margin-right: 5px;
+    }
+
+}
+.keyframes(all,showin,{
+    0% {.transform(translateY(-50px));opacity: 0}
+    100% {.transform(translateY(0px));opacity: 1}
+});

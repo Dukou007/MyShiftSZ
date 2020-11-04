@@ -1,0 +1,29 @@
+
+€
+java:S1192Î"dDefine a constant instead of duplicating this literal "msg.offlineKey.notGrantedOfflineKey" 3 times.(‰•Óüÿÿÿÿ
+b
+java:S1192³"KDefine a constant instead of duplicating this literal ", Version " 6 times.(Šëº
+t
+java:S1192è"XDefine a constant instead of duplicating this literal "msg.offlineKey.required" 3 times.(ÿ„êªûÿÿÿÿ
+t
+java:S1192™"XDefine a constant instead of duplicating this literal "msg.group.groupRequired" 6 times.(ÁÉ¦ıÿÿÿÿ
+t	java:S135˜"YReduce the total number of break and continue statements in this loop to use at most one.(¨è†ğúÿÿÿÿ
+z
+java:S1488˜"^Immediately return this expression instead of assigning it to the temporary variable "result".(Æ«†ûÿÿÿÿ
+w
+java:S1488£"`Immediately return this expression instead of assigning it to the temporary variable "pkgNames".(ìôúê
+u
+java:S1488®"`Immediately return this expression instead of assigning it to the temporary variable "pkgNames".(æñ\
+z
+java:S1488·"cImmediately return this expression instead of assigning it to the temporary variable "keyVersions".(öÚ«œ
+Q	java:S125+"<This block of commented-out lines of code should be removed.(—¶“ø
+n
+java:S3776ƒ"RRefactor this method to reduce its Cognitive Complexity from 25 to the 15 allowed.(åò¿«ûÿÿÿÿ
+p
+java:S2293„"YReplace the type specification in this constructor call with the diamond operator ("<>").(ˆ¥ÏÛ
+X
+java:S1126ª"AReplace this if-then-else statement by a single return statement.(òŸßë
+K
+java:S2864‰"4Iterate over the "entrySet" instead of the "keySet".(íÙ´ı
+p
+java:S2293–"YReplace the type specification in this constructor call with the diamond operator ("<>").(‡Ş”Â

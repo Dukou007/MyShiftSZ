@@ -1,0 +1,203 @@
+/*		
+ * ============================================================================		
+ * = COPYRIGHT		
+ *               PAX TECHNOLOGY, Inc. PROPRIETARY INFORMATION		
+ *   This software is supplied under the terms of a license agreement or		
+ *   nondisclosure agreement with PAX  Technology, Inc. and may not be copied		
+ *   or disclosed except in accordance with the terms in that agreement.		
+ *      Copyright (C) YYYY-? PAX Technology, Inc. All rights reserved.		
+ * Description: // Detail description about the function of this module,		
+ *             // interfaces with the other modules, and dependencies. 		
+ * Revision History:		
+ * Date	                 Author	                Action
+ * 2017-1-10 	         TMS_HZ           	Create/Add/Modify/Delete
+ * ============================================================================		
+ */
+@import 'mixins.less' ;
+/*dashboard*/
+.dashboard-box{
+	padding: 15px;
+	border-radius: 4px;
+	color: #4a647e;
+	background: #fff;
+	
+	border-top:1px solid #fff;
+	.dashboard-bar-title{
+		width: 100%;
+		padding-right: 20px;
+		line-height: 20px;
+		position: relative;
+		.ellipsis()
+	}
+	.dashboard-bar{
+		padding: 10px 0 0 0 ;
+	}
+	.dashboard-bar-icon{
+		position: absolute;
+		right: 0;
+		top:0;
+	}
+	p{
+		margin: 0 ;
+		padding-left: 15px;
+	}
+	&#Tampers{
+		border-top:1px solid #4d5aa6;
+	}
+	.dashboard-chart{
+		float: left;
+		width: 33%;
+		position: relative;
+		canvas{
+			position: relative;
+			z-index: 0;
+		}
+		.iconfont{
+			position: absolute;
+			left: 50%;
+			top: 50%;
+			.transform(translate(-50%,-50%));
+		}
+	}
+	.dashboard-panel{
+		float: left;
+		width: 67%
+	}
+	.dashboard-bignumber{
+		font-size: 24px;
+		line-height: 30px;
+		overflow: hidden;
+		>span{
+			font-size: 16px;	
+		}
+	}
+	.dashboard-name{
+		line-height: 20px;
+		.ellipsis();
+	}
+	.dashboard-smallnumber{
+		font-size: 12px;
+		line-height: 22px;
+	}
+	.dashboard-tooltip{
+		position: absolute;
+		display: inline-block;
+		background:rgba(0,0,0,0.8);
+		color: #fff;
+		border-radius: 4px;
+		padding: 0 6px;
+		white-space: nowrap;
+		z-index: 10;
+		&.bottom:before{
+			content:'';
+			position: absolute;
+			bottom:-4px;
+			left: 50%;
+			width: 0;
+		    height: 0;
+		    margin-left: -15px;
+		    vertical-align: middle;
+		    border-top: 4px dashed;
+		    border-top: 4px solid rgba(0,0,0,0.8);
+		    border-right: 4px solid transparent;
+		    border-left: 4px solid transparent; 
+		    z-index: 10;
+		}
+		&.top:before{
+			content:'';
+			position: absolute;
+			top:-4px;
+			left: 50%;
+			width: 0;
+		    height: 0;
+		    margin-left: -15px;
+		    vertical-align: middle;
+		    border-bottom: 4px dashed;
+		    border-bottom: 4px solid rgba(0,0,0,0.8);
+		    border-right: 4px solid transparent;
+		    border-left: 4px solid transparent; 
+		    z-index: 10;
+		}
+	}
+}
+
+.dashboard-item{
+	margin-top: 30px;
+}
+/*dashboard-alert*/
+.alert-list{
+	border-top: 1px solid #d3e0ea;
+
+	.alert-item{
+		padding-left: 35px;
+		padding-top: 15px;
+		padding-bottom: 10px;
+		position: relative;
+		&>p{
+			margin: 0;
+			line-height: 23px;
+			font-size: 14px;
+			color: #4a647e
+		}
+		&:before{
+			content: '';
+			display: block;
+			width: 1px;
+			position: absolute;
+			top: 0;
+			bottom: 0;
+			left: 14px;
+			background: #d3e0ea;
+		}
+		&:first-child:before{
+			top: 3px;
+		}
+		&:last-child:before{
+			height: 23px;
+			bottom:inherit;
+		}
+		&:after{
+			content: '';
+			display: block;
+			position: absolute;
+			width: 15px;
+			height: 15px;
+			border:3px solid #f2f5f7;
+			border-radius: 50%;
+			background: #d3e0ea;
+			top: 21px;
+			left: 7px;
+
+		}
+		&.alert-color{
+			&:after{
+			background: #fcb322;
+			}
+			.alert-detail{
+				color: #fcb322;
+			}
+		}
+		&.error-color{
+			&:after{
+			background: #ff7068;
+			}
+			.alert-detail{
+				color: #ff7068;
+			}
+		}
+		&:hover{
+			background: #fff;
+		}
+	}
+	.alert-name{
+		
+	}
+	.alert-detail{
+
+	}
+	.alert-item .alert-date{
+		font-size: 12px;
+		color: #9da4b6;
+	}
+}
+

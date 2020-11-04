@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: org.jasig.inspektr:inspektr-audit:1.3.GA">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/jasig/inspektr/inspektr-audit/1.3.GA/inspektr-audit-1.3.GA.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/org/jasig/inspektr/inspektr-audit/1.3.GA/inspektr-audit-1.3.GA-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/jasig/inspektr/inspektr-audit/1.3.GA/inspektr-audit-1.3.GA-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

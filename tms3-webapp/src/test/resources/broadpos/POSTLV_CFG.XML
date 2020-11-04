@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Revision History
+	Copyright: PAX INC. ALL RIGHTS RESERVED
+	Date: 2016-11-11
+	By: elliott.z
+	Description: Create
+-->
+<TLVDeclare>
+	<TLV tag="0010" name="MSG_VER" data_type="TEXT" /> <!-- Message Version -->
+	<TLV tag="0011" name="TRM_MFR" data_type="TEXT" /> <!-- Manufacturer abbr name -->
+	<TLV tag="0012" name="TRM_MDL" data_type="TEXT" /> <!-- Model abbr name -->
+	<TLV tag="0013" name="TRM_SN" data_type="TEXT" /> <!-- Terminal Serial Number -->
+	<TLV tag="0014" name="TIME" data_type="TEXT" /> <!-- Terminal request time or server response time -->
+	<TLV tag="0015" name="MAC" data_type="HEX" /> <!-- MAC -->
+	<TLV tag="0016" name="TXN_TYPE" data_type="HEX" /> <!-- Transaction Type -->
+	<TLV tag="0017" name="CMD_TYPE" data_type="HEX" /> <!-- Command Type -->
+	<TLV tag="0018" name="RSP_CD" data_type="TEXT" /> <!-- Response Code -->
+	<TLV tag="0019" name="RSP_MSGE" data_type="TEXT" /> <!-- Response Message -->
+	<TLV tag="0E00" name="TIME_ZONE" data_type="TEXT" /> <!-- Time Zone Message -->
+
+	<TLV tag="0020" name="APP_NAM" data_type="TEXT" /><!-- Application Abbr Name -->
+	<TLV tag="0021" name="ACP_VER" data_type="TEXT" />
+	<TLV tag="0022" name="PS_VER" data_type="TEXT" />
+	<TLV tag="0023" name="TS_TYPE" data_type="HEX" />
+	<TLV tag="0024" name="START" data_type="HEX" />
+	<TLV tag="0025" name="END" data_type="HEX" />
+	<TLV tag="0026" name="TS_SIZE" data_type="HEX" />
+	<TLV tag="0027" name="DATA" data_type="HEX" />
+	<TLV tag="0200" name="LIC_CODE" data_type="TEXT" />
+
+	<TLV tag="0100" name="OS_PGM_VER" data_type="TEXT" />
+	<TLV tag="0101" name="OS_PGM_LVL" data_type="HEX" /><!-- Response -->
+	<TLV tag="0102" name="OS_PGM_UTM" data_type="TEXT" />
+	<TLV tag="0103" name="OS_PGM_STS" data_type="HEX" />
+	<TLV tag="0104" name="OS_SIGN_VER" data_type="TEXT" />
+	<TLV tag="0105" name="OS_SIGN_LVL" data_type="HEX" /><!-- Response -->
+	<TLV tag="0106" name="OS_SIGN_UTM" data_type="TEXT" />
+	<TLV tag="0107" name="OS_SIGN_STS" data_type="HEX" />
+	<TLV tag="0108" name="OS_PARM_VER" data_type="TEXT" />
+	<TLV tag="0109" name="OS_PARM_LVL" data_type="HEX" /><!-- Response -->
+	<TLV tag="010A" name="OS_PARM_UTM" data_type="TEXT" />
+	<TLV tag="010B" name="OS_PARM_STS" data_type="HEX" />
+	<TLV tag="0120" name="BRW_PGM_VER" data_type="TEXT" />
+	<TLV tag="0121" name="BRW_PGM_LVL" data_type="HEX" /><!-- Response -->
+	<TLV tag="0122" name="BRW_PGM_UTM" data_type="TEXT" />
+	<TLV tag="0123" name="BRW_PGM_STS" data_type="HEX" />
+	<TLV tag="0124" name="BRW_SIGN_VER" data_type="TEXT" />
+	<TLV tag="0125" name="BRW_SIGN_LVL" data_type="HEX" /><!-- Response -->
+	<TLV tag="0126" name="BRW_SIGN_UTM" data_type="TEXT" />
+	<TLV tag="0127" name="BRW_SIGN_STS" data_type="HEX" />
+	<TLV tag="0128" name="BRW_PARM_VER" data_type="TEXT" />
+	<TLV tag="0129" name="BRW_PARM_LVL" data_type="HEX" /><!-- Response -->
+	<TLV tag="012A" name="BRW_PARM_UTM" data_type="TEXT" />
+	<TLV tag="012B" name="BRW_PARM_STS" data_type="HEX" />
+	<TLV tag="0140" name="BASE_PGM_VER" data_type="TEXT" />
+	<TLV tag="0141" name="BASE_PGM_LVL" data_type="HEX" /><!-- Response -->
+	<TLV tag="0142" name="BASE_PGM_UTM" data_type="TEXT" />
+	<TLV tag="0143" name="BASE_PGM_STS" data_type="HEX" />
+	<TLV tag="0144" name="BASE_SIGN_VER" data_type="TEXT" />
+	<TLV tag="0145" name="BASE_SIGN_LVL" data_type="HEX" /><!-- Response -->
+	<TLV tag="0146" name="BASE_SIGN_UTM" data_type="TEXT" />
+	<TLV tag="0147" name="BASE_SIGN_STS" data_type="HEX" />
+	<TLV tag="0148" name="BASE_PARM_VER" data_type="TEXT" />
+	<TLV tag="0149" name="BASE_PARM_LVL" data_type="HEX" /><!-- Response -->
+	<TLV tag="014A" name="BASE_PARM_UTM" data_type="TEXT" />
+	<TLV tag="014B" name="BASE_PARM_STS" data_type="HEX" />
+	<TLV tag="0160" name="UAI_PGM_VER" data_type="TEXT" />
+	<TLV tag="0161" name="UAI_PGM_LVL" data_type="HEX" /><!-- Response -->
+	<TLV tag="0162" name="UAI_PGM_UTM" data_type="TEXT" />
+	<TLV tag="0163" name="UAI_PGM_STS" data_type="HEX" />
+	<TLV tag="0164" name="UAI_SIGN_VER" data_type="TEXT" />
+	<TLV tag="0165" name="UAI_SIGN_LVL" data_type="HEX" /><!-- Response -->
+	<TLV tag="0166" name="UAI_SIGN_UTM" data_type="TEXT" />
+	<TLV tag="0167" name="UAI_SIGN_STS" data_type="HEX" />
+	<TLV tag="0168" name="UAI_PARM_VER" data_type="TEXT" />
+	<TLV tag="0169" name="UAI_PARM_LVL" data_type="HEX" /><!-- Response -->
+	<TLV tag="016A" name="UAI_PARM_UTM" data_type="TEXT" />
+	<TLV tag="016B" name="UAI_PARM_STS" data_type="HEX" />
+	<TLV tag="0180" name="APPLIB_PGM_VER" data_type="TEXT" />
+	<TLV tag="0181" name="APPLIB_PGM_LVL" data_type="HEX" /><!-- Response -->
+	<TLV tag="0182" name="APPLIB_PGM_UTM" data_type="TEXT" />
+	<TLV tag="0183" name="APPLIB_PGM_STS" data_type="HEX" />
+	<TLV tag="0184" name="APPLIB_SIGN_VER" data_type="TEXT" />
+	<TLV tag="0185" name="APPLIB_SIGN_LVL" data_type="HEX" /><!-- Response -->
+	<TLV tag="0186" name="APPLIB_SIGN_UTM" data_type="TEXT" />
+	<TLV tag="0187" name="APPLIB_SIGN_STS" data_type="HEX" />
+	<TLV tag="0188" name="APPLIB_PARM_VER" data_type="TEXT" />
+	<TLV tag="0189" name="APPLIB_PARM_LVL" data_type="HEX" /><!-- Response -->
+	<TLV tag="018A" name="APPLIB_PARM_UTM" data_type="TEXT" />
+	<TLV tag="018B" name="APPLIB_PARM_STS" data_type="HEX" />
+	<TLV tag="01A0" name="SYS_PGM_VER" data_type="TEXT" />
+	<TLV tag="01A1" name="SYS_PGM_LVL" data_type="HEX" /><!-- Response -->
+	<TLV tag="01A2" name="SYS_PGM_UTM" data_type="TEXT" />
+	<TLV tag="01A3" name="SYS_PGM_STS" data_type="HEX" />
+	<TLV tag="01A4" name="SYS_SIGN_VER" data_type="TEXT" />
+	<TLV tag="01A5" name="SYS_SIGN_LVL" data_type="HEX" /><!-- Response -->
+	<TLV tag="01A6" name="SYS_SIGN_UTM" data_type="TEXT" />
+	<TLV tag="01A7" name="SYS_SIGN_STS" data_type="HEX" />
+	<TLV tag="01A8" name="SYS_PARM_VER" data_type="TEXT" />
+	<TLV tag="01A9" name="SYS_PARM_LVL" data_type="HEX" /><!-- Response -->
+	<TLV tag="01AA" name="SYS_PARM_UTM" data_type="TEXT" />
+	<TLV tag="01AB" name="SYS_PARM_STS" data_type="HEX" />
+	<TLV tag="0B00" name="FT_PGM_VER" data_type="TEXT" />
+	<TLV tag="0B01" name="FT_PGM_LVL" data_type="HEX" /><!-- Response -->
+	<TLV tag="0B02" name="FT_PGM_UTM" data_type="TEXT" />
+	<TLV tag="0B03" name="FT_PGM_STS" data_type="HEX" />
+	<TLV tag="0B04" name="FT_SIGN_VER" data_type="TEXT" />
+	<TLV tag="0B05" name="FT_SIGN_LVL" data_type="HEX" /><!-- Response -->
+	<TLV tag="0B06" name="FT_SIGN_UTM" data_type="TEXT" />
+	<TLV tag="0B07" name="FT_SIGN_STS" data_type="HEX" />
+	<TLV tag="0B08" name="FT_PARM_VER" data_type="TEXT" />
+	<TLV tag="0B09" name="FT_PARM_LVL" data_type="HEX" /><!-- Response -->
+	<TLV tag="0B0A" name="FT_PARM_UTM" data_type="TEXT" />
+	<TLV tag="0B0B" name="FT_PARM_STS" data_type="HEX" />
+	<TLV tag="0C00" name="PF_PGM_VER" data_type="TEXT" />
+	<TLV tag="0C01" name="PF_PGM_LVL" data_type="HEX" /><!-- Response -->
+	<TLV tag="0C02" name="PF_PGM_UTM" data_type="TEXT" />
+	<TLV tag="0C03" name="PF_PGM_STS" data_type="HEX" />
+	<TLV tag="0C04" name="PF_SIGN_VER" data_type="TEXT" />
+	<TLV tag="0C05" name="PF_SIGN_LVL" data_type="HEX" /><!-- Response -->
+	<TLV tag="0C06" name="PF_SIGN_UTM" data_type="TEXT" />
+	<TLV tag="0C07" name="PF_SIGN_STS" data_type="HEX" />
+	<TLV tag="0C08" name="PF_PARM_VER" data_type="TEXT" />
+	<TLV tag="0C09" name="PF_PARM_LVL" data_type="HEX" /><!-- Response -->
+	<TLV tag="0C0A" name="PF_PARM_UTM" data_type="TEXT" />
+	<TLV tag="0C0B" name="PF_PARM_STS" data_type="HEX" />
+	<TLV tag="0D00" name="PK_PGM_VER" data_type="TEXT" />
+	<TLV tag="0D01" name="PK_PGM_LVL" data_type="HEX" /><!-- Response -->
+	<TLV tag="0D02" name="PK_PGM_UTM" data_type="TEXT" />
+	<TLV tag="0D03" name="PK_PGM_STS" data_type="HEX" />
+	<TLV tag="0D04" name="PK_SIGN_VER" data_type="TEXT" />
+	<TLV tag="0D05" name="PK_SIGN_LVL" data_type="HEX" /><!-- Response -->
+	<TLV tag="0D06" name="PK_SIGN_UTM" data_type="TEXT" />
+	<TLV tag="0D07" name="PK_SIGN_STS" data_type="HEX" />
+	<TLV tag="0D08" name="PK_PARM_VER" data_type="TEXT" />
+	<TLV tag="0D09" name="PK_PARM_LVL" data_type="HEX" /><!-- Response -->
+	<TLV tag="0D0A" name="PK_PARM_UTM" data_type="TEXT" />
+	<TLV tag="0D0B" name="PK_PARM_STS" data_type="HEX" />
+
+
+	<TLV tag="0200" name="LIC_CODE" data_type="TEXT" />
+	<TLV tag="0201" name="LIC_SDT" data_type="TEXT" />
+	<TLV tag="0202" name="LIC_EDT" data_type="TEXT" />
+	<TLV tag="0203" name="LIC_STS" data_type="HEX" /><!-- Response -->
+	<TLV tag="0204" name="LIC_LVL" data_type="HEX" /><!-- Response -->
+	<TLV tag="0205" name="LIC_UTM" data_type="TEXT" />
+	<TLV tag="0206" name="LIC_UPD_STS" data_type="HEX" />
+
+	<TLV tag="0220" name="APP_LST" data_type="HEX" />
+	<TLV tag="0222" name="APP_PAC_NAME" data_type="TEXT" /><!-- Application Package Name -->
+	<TLV tag="0223" name="APP_VER" data_type="TEXT" /><!-- Application Version -->
+	<TLV tag="0240" name="KEY_LVL" data_type="HEX" /><!-- Response -->
+	<TLV tag="0242" name="PTLK_UTM" data_type="TEXT" />
+	<TLV tag="0243" name="PTLK_STS" data_type="HEX" />
+	<TLV tag="0245" name="TMK_UTM" data_type="TEXT" />
+	<TLV tag="0246" name="TMK_STS" data_type="HEX" />
+	<TLV tag="0248" name="TWK_UTM" data_type="TEXT" />
+	<TLV tag="0249" name="TWK_STS" data_type="HEX" />
+	<TLV tag="024B" name="IPEK_UTM" data_type="TEXT" />
+	<TLV tag="024C" name="IPEK_STS" data_type="HEX" />
+	<TLV tag="024E" name="ISINITKEY" data_type="HEX" />
+	<TLV tag="024F" name="ESO" data_type="TEXT" />
+
+	<TLV tag="0260" name="ROOTCERT_VER" data_type="TEXT" />
+	<TLV tag="0261" name="ROOTCERT_LVL" data_type="HEX" /><!-- Response -->
+	<TLV tag="0262" name="ROOTCERT_UTM" data_type="TEXT" />
+	<TLV tag="0263" name="ROOTCERT_STS" data_type="HEX" />
+	<TLV tag="0264" name="ROOTCERT_SIGN_VER" data_type="TEXT" />
+	<TLV tag="0265" name="ROOTCERT_SIGN_LVL" data_type="HEX" /><!-- Response -->
+	<TLV tag="0266" name="ROOTCERT_SIGN_UTM" data_type="TEXT" />
+	<TLV tag="0267" name="ROOTCERT_SIGN_STS" data_type="HEX" />
+	<TLV tag="0280" name="SCRIPTCERT_VER" data_type="TEXT" />
+	<TLV tag="0281" name="SCRIPTCERT_LVL" data_type="HEX" /><!-- Response -->
+	<TLV tag="0282" name="SCRIPTCERT_UTM" data_type="TEXT" />
+	<TLV tag="0283" name="SCRIPTCERT_STS" data_type="HEX" />
+	<TLV tag="0284" name="SCRIPTCERT_SIGN_VER" data_type="TEXT" />
+	<TLV tag="0285" name="SCRIPTCERT_SIGN_LVL" data_type="HEX" /><!-- Response -->
+	<TLV tag="0286" name="SCRIPTCERT_SIGN_UTM" data_type="TEXT" />
+	<TLV tag="0287" name="SCRIPTCERT_SIGN_STS" data_type="HEX" />
+
+	<TLV tag="0300" name="HMS_LSTCON_TM" data_type="TEXT" />
+	<TLV tag="0301" name="HMS_LSTCON_RTYTMS" data_type="INT" /><!--4 bytes -->
+	<TLV tag="0302" name="HMS_TOTCON_FAILS" data_type="INT" /><!--4 bytes -->
+	<TLV tag="0303" name="HMS_TOTCON_TMS" data_type="INT" /><!--4 bytes -->
+
+	<TLV tag="0410" name="DISPLAY_STS" data_type="HEX" />
+	<TLV tag="0411" name="DISPLAY_SET" data_type="TEXT" />
+	<TLV tag="0420" name="POWER_TMS" data_type="INT" /><!--4 bytes -->
+	<TLV tag="0430" name="SCANNER_MDL" data_type="TEXT" />
+	<TLV tag="0431" name="SCANNER_SN" data_type="TEXT" />
+	<TLV tag="0432" name="SCANNER_STS" data_type="HEX" />
+	<TLV tag="0433" name="SCANNER_FAIL_TMS" data_type="INT" /><!--4 bytes -->
+	<TLV tag="0434" name="SCANNER_TOT_TMS" data_type="INT" /><!---->
+	<TLV tag="0440" name="KEYBOARD_STS" data_type="HEX" />
+	<TLV tag="0441" name="KEYBOARD_TOTKEY_TMS" data_type="INT" /><!--4 bytes -->
+	<TLV tag="0442" name="KEYBOARD_TOTENTER_TMS" data_type="INT" /><!--4 bytes -->
+	<TLV tag="0450" name="PINPAD_MDL" data_type="TEXT" />
+	<TLV tag="0451" name="PINPAD_SN" data_type="TEXT" />
+	<TLV tag="0452" name="PINPAD_STS" data_type="HEX" />
+	<TLV tag="0453" name="PINPAD_KEY_STS" data_type="HEX" />
+	<TLV tag="0454" name="PINPAD_TOTKEY_TMS" data_type="INT" /><!--4 bytes -->
+	<TLV tag="0455" name="PINPAD_TOTENTER_TMS" data_type="INT" /><!--4 bytes -->
+	<TLV tag="0456" name="PINPAD_KEYERASE_TMS" data_type="INT" /><!--4 bytes -->
+	<TLV tag="0460" name="MSR_STS" data_type="HEX" />
+	<TLV tag="0461" name="MSR_FAILREAD_TMS" data_type="INT" /><!--4 bytes -->
+	<TLV tag="0462" name="MSR_TOTREAD_TMS" data_type="INT" /><!--4 bytes -->
+	<TLV tag="0470" name="PRINTER_MDL" data_type="TEXT" />
+	<TLV tag="0471" name="PRINTER_SN" data_type="TEXT" />
+	<TLV tag="0472" name="PRINTER_STS" data_type="HEX" />
+	<TLV tag="0473" name="PRINTER_PAPER_STS" data_type="HEX" />
+	<TLV tag="0474" name="PRINTER_TOTPAPER_LEN" data_type="INT" /><!--4 bytes -->
+	<TLV tag="0480" name="COMMPORT_INFO" data_type="HEX" />
+	<TLV tag="0490" name="USB_STS" data_type="HEX" />
+	<TLV tag="04A0" name="PSAM_INFO" data_type="HEX" />
+	<TLV tag="04B0" name="ICC_INFO" data_type="HEX" />
+
+	<TLV tag="0500" name="SYS_UPTIME" data_type="INT" /><!--4 bytes -->
+	<TLV tag="0510" name="CPU_MAX_USERAT" data_type="TEXT" />
+	<TLV tag="0511" name="CPU_AVG_USERAT" data_type="TEXT" />
+	<TLV tag="0520" name="MEMORY_TOTAL" data_type="INT" /><!--4 bytes -->
+	<TLV tag="0521" name="MEMORY_FREE" data_type="INT" /><!--4 bytes -->
+	<TLV tag="0530" name="FLASH_TOTAL" data_type="INT" /><!--4 bytes -->
+	<TLV tag="0531" name="FLASH_FREE" data_type="INT" /><!--4 bytes -->
+	<TLV tag="0620" name="ETHERNET_ITFINFO" data_type="HEX" />
+	<TLV tag="0640" name="PPPMODEM_ITFINFO" data_type="HEX" />
+	<TLV tag="0660" name="WIFI_ITFINFO" data_type="HEX" />
+	<TLV tag="0680" name="GPRS_CFGINFO" data_type="HEX" />
+	<TLV tag="06A0" name="CDMA_CFGINFO" data_type="HEX" />
+
+	<TLV tag="0700" name="SYS_RESET_ALARM" data_type="TEXT" />
+	<TLV tag="0710" name="TAMPER_ALARM" data_type="TEXT" />
+	<TLV tag="0720" name="SECURITY_MEMORY_STS" data_type="HEX" />
+
+	<TLV tag="0800" name="RPT_BATCH" data_type="TEXT" />
+	<TLV tag="0801" name="TTERM_ID" data_type="TEXT" />
+	<TLV tag="0802" name="TMEC_NUM" data_type="TEXT" />
+	<TLV tag="0803" name="PAYM_NAME" data_type="TEXT" />
+	<TLV tag="0804" name="TOT_CNT" data_type="TEXT" />
+	<TLV tag="0805" name="TOT_AMT" data_type="TEXT" />
+	<TLV tag="0806" name="TRANS_LIST" data_type="TEXT" />
+	<TLV tag="0900" name="AD_POS" data_type="HEX" />
+	<TLV tag="0901" name="AD_PUB" data_type="TEXT" />
+	<TLV tag="0903" name="START" data_type="HEX" />
+	<TLV tag="0904" name="END" data_type="HEX" />
+	<TLV tag="0905" name="TS_SIZE" data_type="HEX" />
+	<TLV tag="0906" name="DATA" data_type="HEX" />
+	<TLV tag="0907" name="AD_LST" data_type="HEX" />
+	<TLV tag="0908" name="AD_LST_RSP" data_type="HEX" />
+	<TLV tag="0A00" name="RESELLER_INF" data_type="TEXT" />
+</TLVDeclare>

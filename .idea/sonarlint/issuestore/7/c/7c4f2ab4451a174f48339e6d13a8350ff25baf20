@@ -1,0 +1,4 @@
+
+Vjavascript:S1481 "5Remove the declaration of the unused 'self' variable.(‚Ì¡‘üÿÿÿÿ
+Sjavascript:S1854 "2Remove this useless assignment to variable "self".(‚Ì¡‘üÿÿÿÿ
+zjavascript:S2703R"YAdd the "let", "const" or "var" keyword to this declaration of "key" to make it explicit.(¾Žçåøÿÿÿÿ

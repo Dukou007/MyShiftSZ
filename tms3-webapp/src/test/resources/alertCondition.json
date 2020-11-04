@@ -1,0 +1,92 @@
+[
+	{
+		"alertItem": "Tampers",
+		"alertSeverity": "3",
+		"alertThreshold": "2",
+		"alertMessage": "Group ?0 tampered exceeds the ?1%"
+	},
+	{
+		"alertItem": "Offline",
+		"alertSeverity": "3",
+		"alertThreshold": "5",
+		"alertMessage": "Group ?0 offline exceeds the ?1%"
+	},
+	{
+		"alertItem": "Privacy Shield",
+		"alertSeverity": "2",
+		"alertThreshold": "10",
+		"alertMessage": "Group ?0 privacy shield removed exceeds the ?1%"
+	},
+	{
+		"alertItem": "Stylus",
+		"alertSeverity": "2",
+		"alertThreshold": "10",
+		"alertMessage": "Group ?0 stylus removed exceeds the ?1%"
+	},
+	{
+		"alertItem": "Downloads",
+		"alertSeverity": "2",
+		"alertThreshold": "10",
+		"alertMessage": "Group ?0 failed downloads exceeds the ?1%"
+	},
+	{
+		"alertItem": "Activations",
+		"alertSeverity": "2",
+		"alertThreshold": "10",
+		"alertMessage": "Group ?0 failed activations exceeds the ?1%"
+	},
+	{
+		"alertItem": "MSR Read",
+		"alertSeverity": "1",
+		"alertThreshold": "10",
+		"alertMessage": "Group ?0 MSR read exceeds the ?1%"
+	},
+	{
+		"alertItem": "Contact IC Read",
+		"alertSeverity": "1",
+		"alertThreshold": "10",
+		"alertMessage": "Group ?0 contact IC read exceeds the ?1%"
+	},
+	{
+		"alertItem": "PIN Encryption Failure",
+		"alertSeverity": "1",
+		"alertThreshold": "15",
+		"alertMessage": "Group ?0 PIN encryption failures exceeds the ?1%"
+	},
+	{
+		"alertItem": "Signature",
+		"alertSeverity": "1",
+		"alertThreshold": "10",
+		"alertMessage": "Group ?0  Signatures aborted/cancelled or timed exceeds the ?1%"
+	},
+	{
+		"alertItem": "Download History",
+		"alertSeverity": "1",
+		"alertThreshold": "5",
+		"alertMessage": "Group ?0  Download failures exceeds the ?1%"
+	},
+	{
+		"alertItem": "Activation History",
+		"alertSeverity": "1",
+		"alertThreshold": "5",
+		"alertMessage": "Group ?0  Activation failures exceeds the ?1%"
+	},
+	{
+		"alertItem": "Contactless IC Read",
+		"alertSeverity": "1",
+		"alertThreshold": "10",
+		"alertMessage": "Group ?0  Contactless IC read exceeds the ?1%"
+	},
+	{
+		"alertItem": "Transactions",
+		"alertSeverity": "1",
+		"alertThreshold": "5",
+		"alertMessage": "Group ?0  Transactions failures exceeds the ?1%"
+	},
+	{
+		"alertItem": "Power-cycles",
+		"alertSeverity": "2",
+		"alertThreshold": "10",
+		"alertMessage": "Group ?0  Power-cycles exceeds the ?1%"
+	}
+]

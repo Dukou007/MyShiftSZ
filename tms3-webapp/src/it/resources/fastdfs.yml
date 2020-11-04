@@ -1,0 +1,15 @@
+# ===================================================================
+# The distributed file system FDFS configuration
+# ===================================================================
+fdfs:
+  soTimeout: 1500
+  connectTimeout: 600 
+  maxWaitMillis: 10000
+  maxIdlePerKey: 120000
+  maxTotalPerKey: 200
+  minEvictableIdleTimeMillis: 120000
+  timeBetweenEvictionRunsMillis: 30000
+  numTestsPerEvictionRun: 6
+  retryAfterSecond: -1
+  trackerList:            #support multipple trackers
+    - ppm-fdfs-tracker:22122

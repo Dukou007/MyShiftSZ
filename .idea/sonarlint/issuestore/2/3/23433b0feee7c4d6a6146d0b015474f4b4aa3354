@@ -1,0 +1,41 @@
+
+‚
+java:S1130I"lRemove the declaration of thrown exception 'java.io.IOException', as it cannot be thrown from method's body.(¹£ş
+o
+java:S2293J"YReplace the type specification in this constructor call with the diamond operator ("<>").(¾·ë
+h
+java:S3776R"RRefactor this method to reduce its Cognitive Complexity from 22 to the 15 allowed.(©˜ª
+i
+java:S3252†"RUse static access with "org.apache.poi.ss.usermodel.Cell" for "CELL_TYPE_NUMERIC".(û›¸å
+m
+java:S3252ˆ"QUse static access with "org.apache.poi.ss.usermodel.Cell" for "CELL_TYPE_STRING".(øØ¦Îüÿÿÿÿ
+n
+java:S3252Š"RUse static access with "org.apache.poi.ss.usermodel.Cell" for "CELL_TYPE_FORMULA".(ùÖİíùÿÿÿÿ
+l
+java:S3252Œ"PUse static access with "org.apache.poi.ss.usermodel.Cell" for "CELL_TYPE_BLANK".(ëç²Åøÿÿÿÿ
+i
+java:S3252"RUse static access with "org.apache.poi.ss.usermodel.Cell" for "CELL_TYPE_BOOLEAN".(ƒ´Ã¼
+l
+java:S3252"PUse static access with "org.apache.poi.ss.usermodel.Cell" for "CELL_TYPE_ERROR".(åáÊşÿÿÿÿ
+o
+java:S3252˜"XUse static access with "org.apache.poi.ss.usermodel.DateUtil" for "isCellDateFormatted".(‚ğƒ
+ƒ
+java:S1130­"lRemove the declaration of thrown exception 'java.io.IOException', as it cannot be thrown from method's body.(¹£ş
+p
+java:S2293¯"YReplace the type specification in this constructor call with the diamond operator ("<>").(¾·ë
+n
+java:S3776¹"RRefactor this method to reduce its Cognitive Complexity from 20 to the 15 allowed.(¤ßœïøÿÿÿÿ
+i
+java:S3252ì"RUse static access with "org.apache.poi.ss.usermodel.Cell" for "CELL_TYPE_NUMERIC".(û›¸å
+m
+java:S3252î"QUse static access with "org.apache.poi.ss.usermodel.Cell" for "CELL_TYPE_STRING".(øØ¦Îüÿÿÿÿ
+n
+java:S3252ğ"RUse static access with "org.apache.poi.ss.usermodel.Cell" for "CELL_TYPE_FORMULA".(ùÖİíùÿÿÿÿ
+l
+java:S3252ò"PUse static access with "org.apache.poi.ss.usermodel.Cell" for "CELL_TYPE_BLANK".(ëç²Åøÿÿÿÿ
+i
+java:S3252ô"RUse static access with "org.apache.poi.ss.usermodel.Cell" for "CELL_TYPE_BOOLEAN".(ƒ´Ã¼
+l
+java:S3252ö"PUse static access with "org.apache.poi.ss.usermodel.Cell" for "CELL_TYPE_ERROR".(åáÊşÿÿÿÿ
+o
+java:S3252ş"XUse static access with "org.apache.poi.ss.usermodel.DateUtil" for "isCellDateFormatted".(‚ğƒ

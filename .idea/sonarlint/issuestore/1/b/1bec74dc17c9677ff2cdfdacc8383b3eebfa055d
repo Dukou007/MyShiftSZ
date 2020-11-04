@@ -1,0 +1,21 @@
+
+d
+java:S5361Ÿ"HReplace this call to "replaceAll()" by a call to the "replace()" method.(ÙÍ’Âøÿÿÿÿ
+C
+java:S1905‚"'Remove this unnecessary cast to "Date".(¥ƒœşÿÿÿÿ
+B
+java:S1172§"&Remove these unused method parameters.(µáÎüÿÿÿÿ
+M
+java:S1172º"1Remove this unused method parameter "resultType".(¨¸ªÓøÿÿÿÿ
+`	java:S112M"FDefine and throw a dedicated exception instead of using a generic one.(ßÓ­Èşÿÿÿÿ
+J
+java:S1905y"/Remove this unnecessary cast to "Serializable".(µáÎüÿÿÿÿ
+d
+java:S5361Ÿ"HReplace this call to "replaceAll()" by a call to the "replace()" method.(ÙÍ’Âøÿÿÿÿ
+d
+java:S5361Ÿ"HReplace this call to "replaceAll()" by a call to the "replace()" method.(ÙÍ’Âøÿÿÿÿ
+>
+java:S1905õ"'Remove this unnecessary cast to "Date".(Üµöü
+c	java:S1197"IRename this generic name to match the regular expression '^[A-Z][0-9]?$'.(×“Éúÿÿÿÿ
+>
+java:S1905è"'Remove this unnecessary cast to "Date".(ÂéƒÏ

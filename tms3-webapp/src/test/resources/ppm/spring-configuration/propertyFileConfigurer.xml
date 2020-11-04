@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<description>
+		You can specify the location of the file here. You may wish to place the file outside
+		of the Servlet
+		context if you have options that are specific to a tier (i.e. test vs. production)
+		so that the WAR file can be moved
+		between tiers without modification.
+	</description>
+
+	<!--
+		Loads a Properties instance from the resource location specified by the '' attribute.
+	-->
+	<util:properties id="ppmProperties"
+		location="classpath:version.properties,classpath:tms.properties,classpath:ppm/ldap.properties,classpath:ppm/jdbc.properties,classpath:ppm/hibernate.properties,classpath:ppm/app.properties,classpath:ppm/http-security.properties" />
+
+	<!--
+		Activates replacement of ${...} placeholders by registering a PropertySourcesPlaceholderConfigurer
+		within the application context.
+	-->
+	<context:property-placeholder properties-ref="ppmProperties" />
+
+</beans>
