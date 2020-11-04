@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c4ff0ec8-d54c-4b56-b4c0-eb024fd675a9" name="Default Changelist" comment="init my project">
-      <change beforePath="$PROJECT_DIR$/src/site/realm.ini" beforeDir="false" afterPath="$PROJECT_DIR$/src/site/realm.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/site/balnk.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/site/balnk.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -21,6 +21,13 @@
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="SET_USER_NAME_GLOBALLY" value="false" />
+  </component>
+  <component name="GithubPullRequestsUISettings">
+    <option name="hiddenUrls">
+      <set>
+        <option value="https://github.com/Dukou007/MyShiftSZ.git" />
+      </set>
+    </option>
   </component>
   <component name="JsFlowSettings">
     <service-enabled>true</service-enabled>
@@ -87,7 +94,7 @@
       <updated>1604399797699</updated>
       <workItem from="1604399798830" duration="51000" />
       <workItem from="1604399851433" duration="1058000" />
-      <workItem from="1604449348696" duration="743000" />
+      <workItem from="1604449348696" duration="4063000" />
     </task>
     <task id="LOCAL-00001" summary="init my project">
       <created>1604400039449</created>
@@ -103,11 +110,29 @@
       <option name="project" value="LOCAL" />
       <updated>1604449420452</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="init my project">
+      <created>1604450475378</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1604450475378</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
@@ -135,10 +160,10 @@
       <screen x="62" y="0" width="1858" height="1080" />
     </state>
     <state x="379" y="98" key="SettingsEditor/62.0.1858.1080@62.0.1858.1080" timestamp="1604450091584" />
-    <state x="483" y="212" key="Vcs.Push.Dialog.v2" timestamp="1604449423409">
+    <state x="483" y="212" key="Vcs.Push.Dialog.v2" timestamp="1604450478986">
       <screen x="62" y="0" width="1858" height="1080" />
     </state>
-    <state x="483" y="212" key="Vcs.Push.Dialog.v2/62.0.1858.1080@62.0.1858.1080" timestamp="1604449423409" />
+    <state x="483" y="212" key="Vcs.Push.Dialog.v2/62.0.1858.1080@62.0.1858.1080" timestamp="1604450478986" />
     <state x="561" y="216" key="com.intellij.openapi.vcs.changes.SpecificFilesViewDialog" timestamp="1604400738958">
       <screen x="62" y="0" width="1858" height="1080" />
     </state>
